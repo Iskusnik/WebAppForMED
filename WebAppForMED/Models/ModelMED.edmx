@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelMED.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelMEDStoreContainer">
+    <EntitySet Name="MedCardSet" EntityType="ModelMED.Store.MedCardSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IllnessSet" EntityType="ModelMED.Store.IllnessSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocRecordSet" EntityType="ModelMED.Store.DocRecordSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FreeTimeSet" EntityType="ModelMED.Store.FreeTimeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WorkTimeSet" EntityType="ModelMED.Store.WorkTimeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DoctorSet" EntityType="ModelMED.Store.DoctorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PatientSet" EntityType="ModelMED.Store.PatientSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MedCardIllness" EntityType="ModelMED.Store.MedCardIllness" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_MedCardIllness_MedCard" Association="ModelMED.Store.FK_MedCardIllness_MedCard">
+      <End Role="MedCard" EntitySet="MedCardSet" />
+      <End Role="MedCardIllness" EntitySet="MedCardIllness" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MedCardIllness_Illness" Association="ModelMED.Store.FK_MedCardIllness_Illness">
+      <End Role="Illness" EntitySet="IllnessSet" />
+      <End Role="MedCardIllness" EntitySet="MedCardIllness" />
+    </AssociationSet>
+    <AssociationSet Name="MedCardDocRecord" Association="ModelMED.Store.MedCardDocRecord">
+      <End Role="MedCard" EntitySet="MedCardSet" />
+      <End Role="DocRecord" EntitySet="DocRecordSet" />
+    </AssociationSet>
+    <AssociationSet Name="DoctorDocRecord" Association="ModelMED.Store.DoctorDocRecord">
+      <End Role="Doctor" EntitySet="DoctorSet" />
+      <End Role="DocRecord" EntitySet="DocRecordSet" />
+    </AssociationSet>
+    <AssociationSet Name="DoctorFreeTime" Association="ModelMED.Store.DoctorFreeTime">
+      <End Role="Doctor" EntitySet="DoctorSet" />
+      <End Role="FreeTime" EntitySet="FreeTimeSet" />
+    </AssociationSet>
+    <AssociationSet Name="PatientWorkTime" Association="ModelMED.Store.PatientWorkTime">
+      <End Role="Patient" EntitySet="PatientSet" />
+      <End Role="WorkTime" EntitySet="WorkTimeSet" />
+    </AssociationSet>
+    <AssociationSet Name="DoctorWorkTime" Association="ModelMED.Store.DoctorWorkTime">
+      <End Role="Doctor" EntitySet="DoctorSet" />
+      <End Role="WorkTime" EntitySet="WorkTimeSet" />
+    </AssociationSet>
+    <AssociationSet Name="PatientMedCard" Association="ModelMED.Store.PatientMedCard">
+      <End Role="Patient" EntitySet="PatientSet" />
+      <End Role="MedCard" EntitySet="MedCardSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="MedCardSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IllnessSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DocRecordSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Diagnos" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MedCard_Id" Type="int" Nullable="false" />
+    <Property Name="Doctor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FreeTimeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="Doctor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkTimeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="Patient_Id" Type="int" Nullable="false" />
+    <Property Name="Doctor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DoctorSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nation" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BirthDate" Type="datetime" Nullable="false" />
+    <Property Name="BirthPlace" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LivePlace" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Pol" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Job" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Insurance" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DocType" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DocNum" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PatientSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FIO" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Nation" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BirthDate" Type="datetime" Nullable="false" />
+    <Property Name="BirthPlace" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LivePlace" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Pol" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OMS" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Blood" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DocType" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DocNum" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MedCard_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MedCardIllness">
+    <Key>
+      <PropertyRef Name="MedCard_Id" />
+      <PropertyRef Name="Illness_Id" />
+    </Key>
+    <Property Name="MedCard_Id" Type="int" Nullable="false" />
+    <Property Name="Illness_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MedCardDocRecord">
+    <End Role="MedCard" Type="ModelMED.Store.MedCardSet" Multiplicity="1" />
+    <End Role="DocRecord" Type="ModelMED.Store.DocRecordSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MedCard">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DocRecord">
+        <PropertyRef Name="MedCard_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DoctorDocRecord">
+    <End Role="Doctor" Type="ModelMED.Store.DoctorSet" Multiplicity="1" />
+    <End Role="DocRecord" Type="ModelMED.Store.DocRecordSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DocRecord">
+        <PropertyRef Name="Doctor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DoctorFreeTime">
+    <End Role="Doctor" Type="ModelMED.Store.DoctorSet" Multiplicity="1" />
+    <End Role="FreeTime" Type="ModelMED.Store.FreeTimeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FreeTime">
+        <PropertyRef Name="Doctor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PatientWorkTime">
+    <End Role="Patient" Type="ModelMED.Store.PatientSet" Multiplicity="1" />
+    <End Role="WorkTime" Type="ModelMED.Store.WorkTimeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkTime">
+        <PropertyRef Name="Patient_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DoctorWorkTime">
+    <End Role="Doctor" Type="ModelMED.Store.DoctorSet" Multiplicity="1" />
+    <End Role="WorkTime" Type="ModelMED.Store.WorkTimeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doctor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WorkTime">
+        <PropertyRef Name="Doctor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PatientMedCard">
+    <End Role="Patient" Type="ModelMED.Store.PatientSet" Multiplicity="*" />
+    <End Role="MedCard" Type="ModelMED.Store.MedCardSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="MedCard">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Patient">
+        <PropertyRef Name="MedCard_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MedCardIllness_MedCard">
+    <End Role="MedCard" Type="ModelMED.Store.MedCardSet" Multiplicity="1" />
+    <End Role="MedCardIllness" Type="ModelMED.Store.MedCardIllness" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MedCard">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MedCardIllness">
+        <PropertyRef Name="MedCard_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MedCardIllness_Illness">
+    <End Role="MedCardIllness" Type="ModelMED.Store.MedCardIllness" Multiplicity="*" />
+    <End Role="Illness" Type="ModelMED.Store.IllnessSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Illness">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MedCardIllness">
+        <PropertyRef Name="Illness_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelMED" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelMEDContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MedCardSet" EntityType="ModelMED.MedCard" />
+          <EntitySet Name="IllnessSet" EntityType="ModelMED.Illness" />
+          <AssociationSet Name="MedCardIllness" Association="ModelMED.MedCardIllness">
+            <End Role="MedCard" EntitySet="MedCardSet" />
+            <End Role="Illness" EntitySet="IllnessSet" />
+          </AssociationSet>
+          <EntitySet Name="DocRecordSet" EntityType="ModelMED.DocRecord" />
+          <AssociationSet Name="MedCardDocRecord" Association="ModelMED.MedCardDocRecord">
+            <End Role="MedCard" EntitySet="MedCardSet" />
+            <End Role="DocRecord" EntitySet="DocRecordSet" />
+          </AssociationSet>
+          <AssociationSet Name="DoctorDocRecord" Association="ModelMED.DoctorDocRecord">
+            <End Role="Doctor" EntitySet="DoctorSet" />
+            <End Role="DocRecord" EntitySet="DocRecordSet" />
+          </AssociationSet>
+          <EntitySet Name="FreeTimeSet" EntityType="ModelMED.FreeTime" />
+          <AssociationSet Name="DoctorFreeTime" Association="ModelMED.DoctorFreeTime">
+            <End Role="Doctor" EntitySet="DoctorSet" />
+            <End Role="FreeTime" EntitySet="FreeTimeSet" />
+          </AssociationSet>
+          <EntitySet Name="WorkTimeSet" EntityType="ModelMED.WorkTime" />
+          <AssociationSet Name="PatientWorkTime" Association="ModelMED.PatientWorkTime">
+            <End Role="Patient" EntitySet="PatientSet" />
+            <End Role="WorkTime" EntitySet="WorkTimeSet" />
+          </AssociationSet>
+          <AssociationSet Name="DoctorWorkTime" Association="ModelMED.DoctorWorkTime">
+            <End Role="Doctor" EntitySet="DoctorSet" />
+            <End Role="WorkTime" EntitySet="WorkTimeSet" />
+          </AssociationSet>
+          <AssociationSet Name="PatientMedCard" Association="ModelMED.PatientMedCard">
+            <End Role="Patient" EntitySet="PatientSet" />
+            <End Role="MedCard" EntitySet="MedCardSet" />
+          </AssociationSet>
+          <EntitySet Name="DoctorSet" EntityType="ModelMED.Doctor" />
+          <EntitySet Name="PatientSet" EntityType="ModelMED.Patient" />
+        </EntityContainer>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="WorkTime" Relationship="ModelMED.PatientWorkTime" FromRole="Patient" ToRole="WorkTime" />
+          <NavigationProperty Name="MedCard" Relationship="ModelMED.PatientMedCard" FromRole="Patient" ToRole="MedCard" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" Nullable="false" />
+          <Property Name="Nation" Type="String" Nullable="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" />
+          <Property Name="BirthPlace" Type="String" Nullable="true" />
+          <Property Name="LivePlace" Type="String" Nullable="true" />
+          <Property Name="Pol" Type="String" Nullable="false" />
+          <Property Name="OMS" Type="String" Nullable="false" />
+          <Property Name="Blood" Type="String" Nullable="true" />
+          <Property Name="DocType" Type="String" Nullable="false" />
+          <Property Name="DocNum" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <NavigationProperty Name="DocRecord" Relationship="ModelMED.DoctorDocRecord" FromRole="Doctor" ToRole="DocRecord" />
+          <NavigationProperty Name="FreeTime" Relationship="ModelMED.DoctorFreeTime" FromRole="Doctor" ToRole="FreeTime" />
+          <NavigationProperty Name="WorkTime" Relationship="ModelMED.DoctorWorkTime" FromRole="Doctor" ToRole="WorkTime" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" Nullable="false" />
+          <Property Name="Nation" Type="String" Nullable="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" />
+          <Property Name="BirthPlace" Type="String" Nullable="true" />
+          <Property Name="LivePlace" Type="String" Nullable="true" />
+          <Property Name="Pol" Type="String" Nullable="false" />
+          <Property Name="Job" Type="String" Nullable="false" />
+          <Property Name="Insurance" Type="String" Nullable="false" />
+          <Property Name="DocType" Type="String" Nullable="false" />
+          <Property Name="DocNum" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Illness" Relationship="ModelMED.MedCardIllness" FromRole="MedCard" ToRole="Illness" />
+          <NavigationProperty Name="DocRecord" Relationship="ModelMED.MedCardDocRecord" FromRole="MedCard" ToRole="DocRecord" />
+          <NavigationProperty Name="Patient" Relationship="ModelMED.PatientMedCard" FromRole="MedCard" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Illness">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MedCard" Relationship="ModelMED.MedCardIllness" FromRole="Illness" ToRole="MedCard" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="MedCardIllness">
+          <End Type="ModelMED.MedCard" Role="MedCard" Multiplicity="*" />
+          <End Type="ModelMED.Illness" Role="Illness" Multiplicity="*" />
+        </Association>
+        <EntityType Name="DocRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MedCard" Relationship="ModelMED.MedCardDocRecord" FromRole="DocRecord" ToRole="MedCard" />
+          <NavigationProperty Name="Doctor" Relationship="ModelMED.DoctorDocRecord" FromRole="DocRecord" ToRole="Doctor" />
+          <Property Name="Diagnos" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="MedCardDocRecord">
+          <End Type="ModelMED.MedCard" Role="MedCard" Multiplicity="1" />
+          <End Type="ModelMED.DocRecord" Role="DocRecord" Multiplicity="*" />
+        </Association>
+        <Association Name="DoctorDocRecord">
+          <End Type="ModelMED.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="ModelMED.DocRecord" Role="DocRecord" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FreeTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Doctor" Relationship="ModelMED.DoctorFreeTime" FromRole="FreeTime" ToRole="Doctor" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <Association Name="DoctorFreeTime">
+          <End Type="ModelMED.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="ModelMED.FreeTime" Role="FreeTime" Multiplicity="*" />
+        </Association>
+        <EntityType Name="WorkTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="ModelMED.PatientWorkTime" FromRole="WorkTime" ToRole="Patient" />
+          <NavigationProperty Name="Doctor" Relationship="ModelMED.DoctorWorkTime" FromRole="WorkTime" ToRole="Doctor" />
+        </EntityType>
+        <Association Name="PatientWorkTime">
+          <End Type="ModelMED.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="ModelMED.WorkTime" Role="WorkTime" Multiplicity="*" />
+        </Association>
+        <Association Name="DoctorWorkTime">
+          <End Type="ModelMED.Doctor" Role="Doctor" Multiplicity="1" />
+          <End Type="ModelMED.WorkTime" Role="WorkTime" Multiplicity="*" />
+        </Association>
+        <Association Name="PatientMedCard">
+          <End Type="ModelMED.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="ModelMED.MedCard" Role="MedCard" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelMEDStoreContainer" CdmEntityContainer="ModelMEDContainer">
+    <EntitySetMapping Name="MedCardSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.MedCard)">
+        <MappingFragment StoreEntitySet="MedCardSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IllnessSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.Illness)">
+        <MappingFragment StoreEntitySet="IllnessSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocRecordSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.DocRecord)">
+        <MappingFragment StoreEntitySet="DocRecordSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Diagnos" ColumnName="Diagnos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FreeTimeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.FreeTime)">
+        <MappingFragment StoreEntitySet="FreeTimeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkTimeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.WorkTime)">
+        <MappingFragment StoreEntitySet="WorkTimeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoctorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.Doctor)">
+        <MappingFragment StoreEntitySet="DoctorSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="Nation" ColumnName="Nation" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
+          <ScalarProperty Name="LivePlace" ColumnName="LivePlace" />
+          <ScalarProperty Name="Pol" ColumnName="Pol" />
+          <ScalarProperty Name="Job" ColumnName="Job" />
+          <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PatientSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelMED.Patient)">
+        <MappingFragment StoreEntitySet="PatientSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+          <ScalarProperty Name="Nation" ColumnName="Nation" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
+          <ScalarProperty Name="LivePlace" ColumnName="LivePlace" />
+          <ScalarProperty Name="Pol" ColumnName="Pol" />
+          <ScalarProperty Name="OMS" ColumnName="OMS" />
+          <ScalarProperty Name="Blood" ColumnName="Blood" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MedCardIllness" TypeName="ModelMED.MedCardIllness" StoreEntitySet="MedCardIllness">
+      <EndProperty Name="MedCard">
+        <ScalarProperty Name="Id" ColumnName="MedCard_Id" />
+      </EndProperty>
+      <EndProperty Name="Illness">
+        <ScalarProperty Name="Id" ColumnName="Illness_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MedCardDocRecord" TypeName="ModelMED.MedCardDocRecord" StoreEntitySet="DocRecordSet">
+      <EndProperty Name="MedCard">
+        <ScalarProperty Name="Id" ColumnName="MedCard_Id" />
+      </EndProperty>
+      <EndProperty Name="DocRecord">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DoctorDocRecord" TypeName="ModelMED.DoctorDocRecord" StoreEntitySet="DocRecordSet">
+      <EndProperty Name="Doctor">
+        <ScalarProperty Name="Id" ColumnName="Doctor_Id" />
+      </EndProperty>
+      <EndProperty Name="DocRecord">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DoctorFreeTime" TypeName="ModelMED.DoctorFreeTime" StoreEntitySet="FreeTimeSet">
+      <EndProperty Name="Doctor">
+        <ScalarProperty Name="Id" ColumnName="Doctor_Id" />
+      </EndProperty>
+      <EndProperty Name="FreeTime">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PatientWorkTime" TypeName="ModelMED.PatientWorkTime" StoreEntitySet="WorkTimeSet">
+      <EndProperty Name="Patient">
+        <ScalarProperty Name="Id" ColumnName="Patient_Id" />
+      </EndProperty>
+      <EndProperty Name="WorkTime">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DoctorWorkTime" TypeName="ModelMED.DoctorWorkTime" StoreEntitySet="WorkTimeSet">
+      <EndProperty Name="Doctor">
+        <ScalarProperty Name="Id" ColumnName="Doctor_Id" />
+      </EndProperty>
+      <EndProperty Name="WorkTime">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PatientMedCard" TypeName="ModelMED.PatientMedCard" StoreEntitySet="PatientSet">
+      <EndProperty Name="MedCard">
+        <ScalarProperty Name="Id" ColumnName="MedCard_Id" />
+      </EndProperty>
+      <EndProperty Name="Patient">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ecd661fb364d4f429b028a58169fee6e" Name="Diagram1" ZoomLevel="109">
+        <EntityTypeShape EntityType="ModelMED.Patient" Width="1.5" PointX="2.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.Doctor" Width="1.5" PointX="7.625" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.MedCard" Width="1.5" PointX="2.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.Illness" Width="1.5" PointX="2.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.DocRecord" Width="1.5" PointX="8.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.FreeTime" Width="1.5" PointX="5.625" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.WorkTime" Width="1.5" PointX="5.625" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="ModelMED.MedCardIllness" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelMED.MedCardDocRecord" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelMED.DoctorDocRecord" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelMED.DoctorFreeTime" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelMED.PatientWorkTime" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelMED.DoctorWorkTime" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelMED.PatientMedCard" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

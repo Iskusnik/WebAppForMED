@@ -1,0 +1,98 @@
+﻿@model WebAppForMED.Models.Patient
+
+@{
+    ViewBag.Title = "Детали";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Patient</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LivePlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LivePlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pol)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pol)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OMS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OMS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Blood)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Blood)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocNum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocNum)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>
