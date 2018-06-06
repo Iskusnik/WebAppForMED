@@ -11,10 +11,15 @@ namespace WebAppForMED.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class FreeTime
     {
         public int Id { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Время начала приёма")]
         public System.DateTime StartTime { get; set; }
     
         public virtual Doctor Doctor { get; set; }

@@ -11,7 +11,8 @@ namespace WebAppForMED.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Illness
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,9 @@ namespace WebAppForMED.Models
         }
     
         public int Id { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Название")]
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
