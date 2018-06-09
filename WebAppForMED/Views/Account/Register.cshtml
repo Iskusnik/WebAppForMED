@@ -1,4 +1,5 @@
 ﻿@model WebAppForMED.Models.RegisterViewModel
+
 @{
     ViewBag.Title = "Регистрация";
 }
@@ -34,6 +35,18 @@
             <input type="submit" class="btn btn-default" value="Регистрация" />
         </div>
     </div>
+    
+    @Html.RadioButton("color", "Доктор")
+    @Html.RadioButton("color", "Пациент")
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Регистрация" />
+        </div>
+    </div>
+    
+
+
 }
 
 @section Scripts {

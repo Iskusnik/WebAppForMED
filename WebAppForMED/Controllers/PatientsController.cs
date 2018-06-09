@@ -124,5 +124,14 @@ namespace WebAppForMED.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+
+        public PartialViewResult ListView()
+        {
+            SelectList patients = new SelectList(db.PatientSet, "Id", "FIO");
+            ViewBag.Patients = patients;
+            return PartialView();
+        }
     }
 }

@@ -206,7 +206,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806091319069_DataMigration.cs" />
+    <Compile Include="Migrations\201806091319069_DataMigration.Designer.cs">
+      <DependentUpon>201806091319069_DataMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\DocRecord.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -334,6 +340,8 @@
     <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\Illness\Create.cshtml" />
     <Content Include="Views\Illness\Details.cshtml" />
+    <Content Include="Views\Doctors\ListView.cshtml" />
+    <Content Include="Views\Patients\ListView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -348,6 +356,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201806091319069_DataMigration.resx">
+      <DependentUpon>201806091319069_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
