@@ -32,6 +32,8 @@ namespace WebAppForMED.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+
             return View(patient);
         }
 
@@ -149,7 +151,16 @@ namespace WebAppForMED.Controllers
                 return HttpNotFound();
             }
             ViewBag.patientId = id;
-            ViewBag.IllnessSet = new SelectList(from ill in db.IllnessSet where !patient.MedCard.Illness.Contains(ill) select ill,"Id","Name");
+
+            //var Illnesses = (from ill in db.IllnessSet where !patient.MedCard.Illness.Contains(ill) select ill).ToList();
+            //if (Illnesses.Count() == 0)
+            //    return View("Details");
+
+            //(from ill in db.IllnessSet where !patient.MedCard.Illness.Contains(ill) select ill).ToList()
+            ViewBag.IllnessSet = new SelectList(db.IllnessSet, "Id", "Name");
+
+           
+
             return View(patient);
         }
         
@@ -167,10 +178,19 @@ namespace WebAppForMED.Controllers
 
                 db.Entry(patient).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Details", patient);
             }
             return View(patient);
         }
+        /*
+        [ValidateAntiForgeryToken]
+        public PartialViewResult ListIllnesses(Patient patient)
+        {
+            //Patient patient = db.PatientSet.Find(patientId);
+            ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+
+            return PartialView();
+        }*/
 
     }
 }

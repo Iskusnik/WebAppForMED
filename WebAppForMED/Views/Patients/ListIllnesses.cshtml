@@ -1,0 +1,22 @@
+﻿@model WebAppForMED.Models.Patient
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Болезни")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (SelectList)ViewBag.IllnessList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Text)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Value })
+            </td>
+        </tr>
+    }
