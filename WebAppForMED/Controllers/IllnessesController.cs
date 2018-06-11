@@ -10,108 +10,107 @@ using WebAppForMED.Models;
 
 namespace WebAppForMED.Controllers
 {
-    public class PatientsController : Controller
+    public class IllnessesController : Controller
     {
         private ModelMEDContainer db = new ModelMEDContainer();
 
-        // GET: Patients
+        // GET: Illnesses
         public ActionResult Index()
         {
-            return View(db.PatientSet.ToList());
+            return View(db.IllnessSet.ToList());
         }
 
-        // GET: Patients/Details/5
+        // GET: Illnesses/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Patient patient = db.PatientSet.Find(id);
-            if (patient == null)
+            Illness illness = db.IllnessSet.Find(id);
+            if (illness == null)
             {
                 return HttpNotFound();
             }
-            return View(patient);
+            return View(illness);
         }
 
-        // GET: Patients/Create
+        // GET: Illnesses/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Patients/Create
+        // POST: Illnesses/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FIO,Nation,BirthDate,BirthPlace,LivePlace,Pol,OMS,Blood,DocType,DocNum")] Patient patient)
+        public ActionResult Create([Bind(Include = "Id,Name")] Illness illness)
         {
             if (ModelState.IsValid)
             {
-                db.PatientSet.Add(patient);
-                patient.MedCard = new MedCard();
+                db.IllnessSet.Add(illness);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(patient);
+            return View(illness);
         }
 
-        // GET: Patients/Edit/5
+        // GET: Illnesses/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Patient patient = db.PatientSet.Find(id);
-            if (patient == null)
+            Illness illness = db.IllnessSet.Find(id);
+            if (illness == null)
             {
                 return HttpNotFound();
             }
-            return View(patient);
+            return View(illness);
         }
 
-        // POST: Patients/Edit/5
+        // POST: Illnesses/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FIO,Nation,BirthDate,BirthPlace,LivePlace,Pol,OMS,Blood,DocType,DocNum")] Patient patient)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Illness illness)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(patient).State = EntityState.Modified;
+                db.Entry(illness).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(patient);
+            return View(illness);
         }
 
-        // GET: Patients/Delete/5
+        // GET: Illnesses/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Patient patient = db.PatientSet.Find(id);
-            if (patient == null)
+            Illness illness = db.IllnessSet.Find(id);
+            if (illness == null)
             {
                 return HttpNotFound();
             }
-            return View(patient);
+            return View(illness);
         }
 
-        // POST: Patients/Delete/5
+        // POST: Illnesses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Patient patient = db.PatientSet.Find(id);
-            db.PatientSet.Remove(patient);
+            Illness illness = db.IllnessSet.Find(id);
+            db.IllnessSet.Remove(illness);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -124,53 +123,5 @@ namespace WebAppForMED.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-
-        public PartialViewResult ListView()
-        {
-            SelectList patients = new SelectList(db.PatientSet, "Id", "FIO");
-            ViewBag.Patients = patients;
-            return PartialView();
-        }
-
-
-
-
-        public ActionResult AddIllness(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Patient patient = db.PatientSet.Find(id);
-            if (patient == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.patientId = id;
-            ViewBag.IllnessSet = new SelectList(from ill in db.IllnessSet where !patient.MedCard.Illness.Contains(ill) select ill,"Id","Name");
-            return View(patient);
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddIllness(int patientId, int id)
-        {
-            Patient patient = db.PatientSet.Find(patientId);
-            Illness illness = db.IllnessSet.Find(id);
-
-            if (ModelState.IsValid)
-            {
-                patient.MedCard.Illness.Add(illness);
-                illness.MedCard.Add(patient.MedCard);
-
-                db.Entry(patient).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details");
-            }
-            return View(patient);
-        }
-
     }
 }

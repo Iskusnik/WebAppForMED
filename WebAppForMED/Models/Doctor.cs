@@ -12,6 +12,7 @@ namespace WebAppForMED.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public partial class Doctor
     {
@@ -62,11 +63,12 @@ namespace WebAppForMED.Models
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "Должно быть: только цифры")]
         [Display(Name = "Номер страховки")]
         public string Insurance { get; set; }
-
+        
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Тип документа")]
         public string DocType { get; set; }
 
+        [Remote("CheckDocNum", "Doctors", AdditionalFields = "DocType", ErrorMessage = "Номер занят")]
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "Должно быть: только цифры")]
         [Display(Name = "Номер документа")]
         public string DocNum { get; set; }

@@ -130,5 +130,15 @@ namespace WebAppForMED.Controllers
             ViewBag.Doctors = doctors;
             return PartialView();
         }
+
+
+        [HttpGet]
+        public JsonResult CheckDocNum(string DocNum, string DocType)
+        {
+            List<Doctor> resD = (from d in db.DoctorSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
+            List<Patient> resP = (from d in db.PatientSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
+            var result = resD.Count == 0 && resD.Count == 0;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

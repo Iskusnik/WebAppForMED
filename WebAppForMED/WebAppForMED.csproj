@@ -199,18 +199,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="ClassEnumTypes.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DoctorCabinetController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IllnessesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PatientCabinetController.cs" />
     <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201806091319069_DataMigration.cs" />
-    <Compile Include="Migrations\201806091319069_DataMigration.Designer.cs">
-      <DependentUpon>201806091319069_DataMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppDbInitializer.cs" />
     <Compile Include="Models\DocRecord.cs">
@@ -338,13 +336,19 @@
     <Content Include="Views\Patients\Details.cshtml" />
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
-    <Content Include="Views\Illness\Create.cshtml" />
-    <Content Include="Views\Illness\Details.cshtml" />
     <Content Include="Views\Doctors\ListView.cshtml" />
     <Content Include="Views\Patients\ListView.cshtml" />
+    <Content Include="Views\Illnesses\Create.cshtml" />
+    <Content Include="Views\Illnesses\Delete.cshtml" />
+    <Content Include="Views\Illnesses\Details.cshtml" />
+    <Content Include="Views\Illnesses\Edit.cshtml" />
+    <Content Include="Views\Illnesses\Index.cshtml" />
+    <Content Include="Views\Patients\AddIllness.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DoctorCabinet\" />
+    <Folder Include="Views\PatientCabinet\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -356,11 +360,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201806091319069_DataMigration.resx">
-      <DependentUpon>201806091319069_DataMigration.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -12,7 +12,7 @@ namespace WebAppForMED.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.Web.Mvc;   
 
     public partial class Patient
     {
@@ -66,6 +66,8 @@ namespace WebAppForMED.Models
         [Display(Name = "Тип документа")]
         public string DocType { get; set; }
 
+
+        [Remote("CheckDocNum", "Doctors", AdditionalFields = "DocType", ErrorMessage = "Номер занят")]
         [Required(AllowEmptyStrings = false)]
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "Должно быть: только цифры")]
         [Display(Name = "Номер документа")]

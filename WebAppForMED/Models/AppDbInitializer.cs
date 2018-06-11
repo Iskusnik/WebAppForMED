@@ -28,7 +28,8 @@ namespace WebAppForMED.Models
 
             // создаем пользователей
             var admin = new ApplicationUser { Email = "somemail@mail.ru", UserName = "somemail@mail.ru" };
-            string password = "1";
+            string password = "123456";
+            admin.UserInfo = new Doctor();
             var result = userManager.Create(admin, password);
 
             // если создание пользователя прошло успешно

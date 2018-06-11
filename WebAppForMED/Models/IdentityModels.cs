@@ -23,7 +23,7 @@ namespace WebAppForMED.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("ModelMEDContainer", throwIfV1Schema: false)
         {
         }
 

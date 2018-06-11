@@ -8,11 +8,13 @@ namespace WebAppForMED.Controllers
 {
     public class HomeController : Controller
     {
+     //   [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View();
         }
 
+     //   [Authorize(Roles = "admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -20,6 +22,7 @@ namespace WebAppForMED.Controllers
             return View();
         }
 
+      // [Authorize(Roles = "admin")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

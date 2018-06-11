@@ -111,6 +111,10 @@
 <div>
     @Html.ActionLink("Назад к списку", "Index")
 </div>
+<div>
+    @Html.ActionLink("Добавить болезнь", "AddIllness", new { id = Model.Id })
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
