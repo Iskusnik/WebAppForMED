@@ -157,10 +157,22 @@ namespace WebAppForMED.Controllers
             //    return View("Details");
 
             //(from ill in db.IllnessSet where !patient.MedCard.Illness.Contains(ill) select ill).ToList()
-            ViewBag.IllnessSet = new SelectList(db.IllnessSet, "Id", "Name");
+            List<Illness> list = db.IllnessSet.ToList();
+            List<Illness> patientList = patient.MedCard.Illness.ToList();
 
-           
+            for (int i = 0; i < list.Count; i++)
+                for (int j = 0; j < patient.MedCard.Illness.Count; j++)
+                    if (list[i].Name == patientList[j].Name)
+                        list.RemoveAt(i);
 
+            if (list.Count == 0)
+            {
+                ViewBag.Message = "Нечего добавить";
+                ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+                return View("Details", patient);
+            }
+
+            ViewBag.IllnessSet = new SelectList(list, "Id", "Name");
             return View(patient);
         }
         
@@ -170,7 +182,7 @@ namespace WebAppForMED.Controllers
         {
             Patient patient = db.PatientSet.Find(patientId);
             Illness illness = db.IllnessSet.Find(id);
-
+            
             if (ModelState.IsValid)
             {
                 patient.MedCard.Illness.Add(illness);
@@ -182,15 +194,24 @@ namespace WebAppForMED.Controllers
             }
             return View(patient);
         }
-        /*
-        [ValidateAntiForgeryToken]
-        public PartialViewResult ListIllnesses(Patient patient)
-        {
-            //Patient patient = db.PatientSet.Find(patientId);
-            ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
 
-            return PartialView();
-        }*/
+
+        public ActionResult DeleteIllness(int patientId, int id)
+        {
+            Patient patient = db.PatientSet.Find(patientId);
+            Illness illness = db.IllnessSet.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                patient.MedCard.Illness.Remove(illness);
+                illness.MedCard.Remove(patient.MedCard);
+
+                db.Entry(patient).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", patient);
+            }
+            return View(patient);
+        }
 
     }
 }

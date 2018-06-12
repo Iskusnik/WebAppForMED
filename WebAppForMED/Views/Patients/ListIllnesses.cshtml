@@ -16,7 +16,7 @@
                 @Html.DisplayName(item.Text)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Value })
+                @Html.ActionLink("Удалить из списка болезней", "DeleteIllness", new { patientId = Model.Id, id = item.Value })
             </td>
         </tr>
     }
