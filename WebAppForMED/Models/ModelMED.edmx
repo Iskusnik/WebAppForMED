@@ -330,6 +330,7 @@
           <NavigationProperty Name="MedCard" Relationship="ModelMED.MedCardDocRecord" FromRole="DocRecord" ToRole="MedCard" />
           <NavigationProperty Name="Doctor" Relationship="ModelMED.DoctorDocRecord" FromRole="DocRecord" ToRole="Doctor" />
           <Property Name="Diagnos" Type="String" Nullable="false" />
+          <Property Name="RecordDate" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="MedCardDocRecord">
           <End Type="ModelMED.MedCard" Role="MedCard" Multiplicity="1" />
@@ -527,13 +528,13 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ecd661fb364d4f429b028a58169fee6e" Name="Diagram1" ZoomLevel="109">
+      <Diagram DiagramId="ecd661fb364d4f429b028a58169fee6e" Name="Diagram1" ZoomLevel="103">
         <EntityTypeShape EntityType="ModelMED.Patient" Width="1.5" PointX="2.75" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.Doctor" Width="1.5" PointX="7.625" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.MedCard" Width="1.5" PointX="2.75" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.Illness" Width="1.5" PointX="2.75" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.DocRecord" Width="1.5" PointX="8.25" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="ModelMED.FreeTime" Width="1.5" PointX="5.625" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelMED.FreeTime" Width="1.5" PointX="9.875" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.WorkTime" Width="1.5" PointX="5.625" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="ModelMED.MedCardIllness" ManuallyRouted="false" />
         <AssociationConnector Association="ModelMED.MedCardDocRecord" ManuallyRouted="false" />

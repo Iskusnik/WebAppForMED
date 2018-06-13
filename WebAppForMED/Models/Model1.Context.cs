@@ -12,9 +12,7 @@ namespace WebAppForMED.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-
+    
     public partial class ModelMEDContainer : DbContext
     {
         public ModelMEDContainer()

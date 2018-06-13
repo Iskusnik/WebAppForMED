@@ -5,11 +5,7 @@
 }
 
 <h2>Детали</h2>
-<h3>
-    
-        @Html.Raw(((string)ViewBag.Message))
-      
- </h3>
+
 <div>
     <h4>Пациенты</h4>
     <hr />
@@ -94,9 +90,6 @@
             @Html.DisplayFor(model => model.DocNum)
         </dd>
 
-        <dd>
-            @Html.Partial("ListIllnesses", Model)
-        </dd>
     </dl>
 </div>
 <p>

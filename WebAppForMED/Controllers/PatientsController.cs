@@ -32,7 +32,8 @@ namespace WebAppForMED.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+
+            
 
             return View(patient);
         }
@@ -73,6 +74,11 @@ namespace WebAppForMED.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+            ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
+            ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
+
             return View(patient);
         }
 
@@ -169,7 +175,7 @@ namespace WebAppForMED.Controllers
             {
                 ViewBag.Message = "Нечего добавить";
                 ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
-                return View("Details", patient);
+                return View("Edit", patient);
             }
 
             ViewBag.IllnessSet = new SelectList(list, "Id", "Name");
@@ -190,11 +196,10 @@ namespace WebAppForMED.Controllers
 
                 db.Entry(patient).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", patient);
+                return RedirectToAction("Edit", patient);
             }
             return View(patient);
         }
-
 
         public ActionResult DeleteIllness(int patientId, int id)
         {
@@ -208,7 +213,58 @@ namespace WebAppForMED.Controllers
 
                 db.Entry(patient).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", patient);
+                return RedirectToAction("Edit", patient);
+            }
+            return View(patient);
+        }
+
+
+        public ActionResult AddRecord(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Patient patient = db.PatientSet.Find(id);
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.patientId = id;
+            
+            return View(patient);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddRecord(int patientId, [Bind(Include = "Id, Diagnos, RecordDate")]DocRecord record)
+        {
+            Patient patient = db.PatientSet.Find(patientId);
+            
+            if (ModelState.IsValid)
+            {
+                patient.MedCard.DocRecord.Add(record);
+
+                db.Entry(patient).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", patient);
+            }
+            return View(patient);
+        }
+
+        public ActionResult DeleteRecord(int patientId, int id)
+        {
+            Patient patient = db.PatientSet.Find(patientId);
+            Illness illness = db.IllnessSet.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                patient.MedCard.Illness.Remove(illness);
+                illness.MedCard.Remove(patient.MedCard);
+
+                db.Entry(patient).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", patient);
             }
             return View(patient);
         }
