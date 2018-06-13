@@ -12,7 +12,7 @@ namespace WebAppForMED.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;   
+    using System.Web.Mvc;
 
     public partial class Patient
     {
@@ -21,7 +21,7 @@ namespace WebAppForMED.Models
         {
             this.WorkTime = new HashSet<WorkTime>();
         }
-    
+
         public int Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]

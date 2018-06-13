@@ -21,7 +21,7 @@ namespace WebAppForMED.Models
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Время начала приёма")]
         public System.DateTime StartTime { get; set; }
-    
+
         public virtual Doctor Doctor { get; set; }
     }
 }

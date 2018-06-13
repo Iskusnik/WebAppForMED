@@ -23,7 +23,7 @@ namespace WebAppForMED.Models
             this.FreeTime = new HashSet<FreeTime>();
             this.WorkTime = new HashSet<WorkTime>();
         }
-    
+
         public int Id { get; set; }
         [Required(AllowEmptyStrings = false)]
         [RegularExpression(@"(([А-Я][а-я]* )([А-Я][а-я]*)){1}( [А-Я][а-я]*){0,1}$", ErrorMessage = "Некорректные ФИО")]
@@ -63,7 +63,7 @@ namespace WebAppForMED.Models
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "Должно быть: только цифры")]
         [Display(Name = "Номер страховки")]
         public string Insurance { get; set; }
-        
+
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Тип документа")]
         public string DocType { get; set; }

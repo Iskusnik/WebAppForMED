@@ -24,7 +24,7 @@ namespace WebAppForMED.Models
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Время записи")]
         public System.DateTime RecordDate { get; set; }
-    
+
         public virtual MedCard MedCard { get; set; }
         public virtual Doctor Doctor { get; set; }
     }
