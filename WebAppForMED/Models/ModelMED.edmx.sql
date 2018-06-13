@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/31/2018 23:13:59
--- Generated from EDMX file: c:\users\iskusnikxd\documents\visual studio 2015\Projects\WebAppForMED\WebAppForMED\Models\ModelMED.edmx
+-- Date Created: 06/13/2018 21:53:25
+-- Generated from EDMX file: C:\Users\IskusnikXD\Documents\Visual Studio 2015\Projects\WebAppForMED\WebAppForMED\Models\ModelMED.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -39,7 +39,7 @@ IF OBJECT_ID(N'[dbo].[FK_DoctorWorkTime]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkTimeSet] DROP CONSTRAINT [FK_DoctorWorkTime];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PatientMedCard]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PersonSet_Patient] DROP CONSTRAINT [FK_PatientMedCard];
+    ALTER TABLE [dbo].[PatientSet] DROP CONSTRAINT [FK_PatientMedCard];
 GO
 
 -- --------------------------------------------------
@@ -61,11 +61,11 @@ GO
 IF OBJECT_ID(N'[dbo].[WorkTimeSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkTimeSet];
 GO
-IF OBJECT_ID(N'[dbo].[PersonSet_Doctor]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PersonSet_Doctor];
+IF OBJECT_ID(N'[dbo].[DoctorSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DoctorSet];
 GO
-IF OBJECT_ID(N'[dbo].[PersonSet_Patient]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PersonSet_Patient];
+IF OBJECT_ID(N'[dbo].[PatientSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PatientSet];
 GO
 IF OBJECT_ID(N'[dbo].[MedCardIllness]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MedCardIllness];
@@ -92,6 +92,7 @@ GO
 CREATE TABLE [dbo].[DocRecordSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Diagnos] nvarchar(max)  NOT NULL,
+    [RecordDate] datetime  NOT NULL,
     [MedCard_Id] int  NOT NULL,
     [Doctor_Id] int  NOT NULL
 );

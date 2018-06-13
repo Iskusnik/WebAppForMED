@@ -66,6 +66,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Diagnos" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RecordDate" Type="datetime" Nullable="false" />
     <Property Name="MedCard_Id" Type="int" Nullable="false" />
     <Property Name="Doctor_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -399,6 +400,7 @@
         <MappingFragment StoreEntitySet="DocRecordSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Diagnos" ColumnName="Diagnos" />
+          <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
