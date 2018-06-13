@@ -18,6 +18,7 @@ namespace WebAppForMED.Models
         public int Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+        [Display(Name ="Диагноз")]
         public string Diagnos { get; set; }
 
         [DataType(DataType.Date)]

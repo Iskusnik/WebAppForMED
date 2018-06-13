@@ -347,6 +347,8 @@
     <Content Include="Views\Patients\ListIllnesses.cshtml" />
     <Content Include="Views\Patients\ListRecords.cshtml" />
     <Content Include="Views\Patients\AddRecord.cshtml" />
+    <Content Include="Views\Patients\ListVisits.cshtml" />
+    <Content Include="Views\Patients\AddVisit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -175,6 +175,8 @@ namespace WebAppForMED.Controllers
             {
                 ViewBag.Message = "Нечего добавить";
                 ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+                ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
+                ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
                 return View("Edit", patient);
             }
 
@@ -219,6 +221,8 @@ namespace WebAppForMED.Controllers
         }
 
 
+
+
         public ActionResult AddRecord(int? id)
         {
             if (id == null)
@@ -231,16 +235,31 @@ namespace WebAppForMED.Controllers
                 return HttpNotFound();
             }
             ViewBag.patientId = id;
-            
-            return View(patient);
+            ViewBag.DoctorList = new SelectList(db.DoctorSet, "Id", "FIO");
+
+            if (db.DoctorSet.Count() == 0)
+            {
+                ViewBag.Message = "Нет врачей, чтобы сделать запись";
+                ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+                ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
+                ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
+
+                return View("Edit", patient);
+            }
+
+
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddRecord(int patientId, [Bind(Include = "Id, Diagnos, RecordDate")]DocRecord record)
+        public ActionResult AddRecord(int patientId, int doctorId, [Bind(Include = "Id, Diagnos, RecordDate")]DocRecord record)
         {
             Patient patient = db.PatientSet.Find(patientId);
-            
+            Doctor doctor = db.DoctorSet.Find(doctorId);
+
+            record.Doctor = doctor;
+
             if (ModelState.IsValid)
             {
                 patient.MedCard.DocRecord.Add(record);
@@ -249,19 +268,86 @@ namespace WebAppForMED.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Edit", patient);
             }
-            return View(patient);
+            return View();
         }
 
         public ActionResult DeleteRecord(int patientId, int id)
         {
             Patient patient = db.PatientSet.Find(patientId);
-            Illness illness = db.IllnessSet.Find(id);
+            DocRecord record = db.DocRecordSet.Find(id);
 
             if (ModelState.IsValid)
             {
-                patient.MedCard.Illness.Remove(illness);
-                illness.MedCard.Remove(patient.MedCard);
+                db.DocRecordSet.Remove(record);
 
+                db.SaveChanges();
+                return RedirectToAction("Edit", patient);
+            }
+            return View(patient);
+        }
+
+
+
+        public ActionResult AddVisit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Patient patient = db.PatientSet.Find(id);
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.patientId = id;
+            ViewBag.DoctorList = new SelectList(db.DoctorSet, "Id", "FIO");
+            ViewBag.VisitsList = new SelectList(db.FreeTimeSet, "Id", "StartTime");
+            if (db.FreeTimeSet.Count() == 0)
+            {
+                ViewBag.Message = "Нет свободного времени";
+                ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+                ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
+                ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
+                return View("Edit", patient);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddVisit(int patientId, int freeTimeId, int doctorId, [Bind(Include = "Id")]WorkTime record)
+        {
+            Patient patient = db.PatientSet.Find(patientId);
+            
+            FreeTime freeTime = db.FreeTimeSet.Find(freeTimeId);
+
+            record.StartTime = freeTime.StartTime;
+            record.Patient = patient;
+
+            if (ModelState.IsValid)
+            {
+                patient.WorkTime.Add(record);
+               
+                db.FreeTimeSet.Remove(freeTime);
+
+                db.Entry(patient).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", patient);
+            }
+            return View();
+        }
+
+        public ActionResult DeleteVisit(int patientId, int id)
+        {
+            Patient patient = db.PatientSet.Find(patientId);
+            WorkTime record = db.WorkTimeSet.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                patient.WorkTime.Remove(record);
+                db.WorkTimeSet.Remove(record);
                 db.Entry(patient).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Edit", patient);

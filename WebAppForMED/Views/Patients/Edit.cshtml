@@ -111,20 +111,20 @@
         </div>
 
 
+        <div class="form-group">
+                <div>
+                    @Html.Partial("ListIllnesses", Model)
+                </div>
 
-        <dd>
-            @Html.Partial("ListIllnesses", Model)
-        </dd>
+                <div>
+                    @Html.Partial("ListRecords", Model)
+                </div>
 
-        <dd>
-            @Html.Partial("ListRecords", Model)
-        </dd>
-
-        <dd>
-            @Html.Partial("ListVisits", Model)
-        </dd>
-    </div>
-
+                <div>
+                    @Html.Partial("ListVisits", Model)
+                </div>
+            </div>
+        </div>
 
 }
 
@@ -133,6 +133,12 @@
 </div>
 <div>
     @Html.ActionLink("Добавить болезнь", "AddIllness", new { id = Model.Id })
+</div>
+<div>
+    @Html.ActionLink("Добавить запись в медкарту", "AddRecord", new { id = Model.Id })
+</div>
+<div>
+    @Html.ActionLink("Добавить запись на приём", "AddVisit", new { id = Model.Id })
 </div>
 
 
