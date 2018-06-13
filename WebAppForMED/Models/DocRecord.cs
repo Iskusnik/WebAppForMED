@@ -11,11 +11,18 @@ namespace WebAppForMED.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class DocRecord
     {
         public int Id { get; set; }
+
+        [Required(AllowEmptyStrings = false)]
         public string Diagnos { get; set; }
+
+        [DataType(DataType.Date)]
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Время записи")]
         public System.DateTime RecordDate { get; set; }
     
         public virtual MedCard MedCard { get; set; }
