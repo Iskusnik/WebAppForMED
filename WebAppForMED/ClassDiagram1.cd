@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WebAppForMED.Models.WorkTime">
+    <Position X="8.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAIAAAAAQAAAAAAAAACAA=</HashCode>
+      <FileName>Models\WorkTime.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Patient" />
+      <Property Name="Doctor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebAppForMED.Models.Illness">
+    <Position X="6.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Illness.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="MedCard" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WebAppForMED.Models.MedCard">
+    <Position X="2.5" Y="0.75" Width="1.5" />
+    <AssociationLine Name="Patient" Type="WebAppForMED.Models.Patient" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.445" Y="2.305" />
+        <Point X="3.445" Y="5.297" />
+        <Point X="4.5" Y="5.297" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAgCAA=</HashCode>
+      <FileName>Models\MedCard.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Patient" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Illness" />
+      <Property Name="DocRecord" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WebAppForMED.Models.Patient">
+    <Position X="4.5" Y="2.75" Width="1.5" />
+    <AssociationLine Name="MedCard" Type="WebAppForMED.Models.MedCard" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="4.764" />
+        <Point X="3.875" Y="4.764" />
+        <Point X="3.875" Y="2.305" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AjACAgABAAAAAAAAAAQEAAQAAAiAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Patient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MedCard" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="WorkTime" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WebAppForMED.Models.DocRecord">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACAQAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DocRecord.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Doctor" />
+      <Property Name="MedCard" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebAppForMED.Models.Doctor">
+    <Position X="6.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AiACAgABAAAAAAAAgASAAAQAAAiCAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Models\Doctor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="WorkTime" />
+      <Property Name="DocRecord" />
+      <Property Name="FreeTime" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="WebAppForMED.Models.FreeTime">
+    <Position X="3.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAIAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\FreeTime.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Doctor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebAppForMED.ClassEnumTypes">
+    <Position X="9.25" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAQAAkAAAAAAAAAAAAQAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>ClassEnumTypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

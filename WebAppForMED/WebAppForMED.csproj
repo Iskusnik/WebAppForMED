@@ -280,6 +280,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelMED.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
