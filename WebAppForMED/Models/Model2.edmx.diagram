@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="01d84c62e77b472484c65ec756e5a43f" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="MyNewMedWebModel2.C__MigrationHistory" Width="1.5" PointX="4.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.AspNetRole" Width="1.5" PointX="7.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.AspNetUserLogin" Width="1.5" PointX="12.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.AspNetUser" Width="1.5" PointX="10" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.DocRecord" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.Doctor" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.FreeTime" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.Illness" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.MedCard" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.Patient" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyNewMedWebModel2.WorkTime" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_DoctorDocRecord" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_MedCardDocRecord" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_DoctorFreeTime" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_DoctorWorkTime" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_PatientMedCard" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.FK_PatientWorkTime" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="MyNewMedWebModel2.MedCardIllness" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

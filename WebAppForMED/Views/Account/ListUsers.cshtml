@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WebAppForMED.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "ListUsers";
+}
+
+<h2>Список пользователей</h2>
+
+<p>
+    @Html.ActionLink("Добавить нового", "Register")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayName("Роли")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @foreach (var role in item.Roles)
+            {
+            @Html.Display(role.RoleId + " ");
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Добавить роль", "AddRole", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

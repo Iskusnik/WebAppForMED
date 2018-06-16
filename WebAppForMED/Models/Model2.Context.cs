@@ -13,10 +13,10 @@ namespace WebAppForMED.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ModelMEDContainer : DbContext
+    public partial class MyNewMedWebEntities2 : DbContext
     {
-        public ModelMEDContainer()
-            : base("name=ModelMEDContainer")
+        public MyNewMedWebEntities2()
+            : base("name=MyNewMedWebEntities2")
         {
         }
     
@@ -25,17 +25,17 @@ namespace WebAppForMED.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<MedCard> MedCardSet { get; set; }
-        public virtual DbSet<Illness> IllnessSet { get; set; }
-        public virtual DbSet<DocRecord> DocRecordSet { get; set; }
-        public virtual DbSet<FreeTime> FreeTimeSet { get; set; }
-        public virtual DbSet<WorkTime> WorkTimeSet { get; set; }
-        public virtual DbSet<Doctor> DoctorSet { get; set; }
-        public virtual DbSet<Patient> PatientSet { get; set; }
-
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<DocRecord> DocRecords { get; set; }
+        public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<FreeTime> FreeTimes { get; set; }
+        public virtual DbSet<Illness> Illnesses { get; set; }
+        public virtual DbSet<MedCard> MedCards { get; set; }
+        public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<WorkTime> WorkTimes { get; set; }
     }
 }

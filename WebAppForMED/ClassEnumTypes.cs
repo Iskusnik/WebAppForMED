@@ -10,9 +10,11 @@ namespace WebAppForMED
         static readonly string[] docTypes = { "Паспорт гражданина РФ", "Удостоверение беженца", "Военный билет", "Временное удостоверение личности" };
         static readonly string[] polTypes = { "Мужской", "Женский" };
         static readonly string[] bloodTypes = { "1+", "2+", "3+", "4+", "1-", "2-", "3-", "4-" };
+        static readonly string[] roleTypes = { "admin", "patient", "doctor"};
 
         public static SelectList DocTypes = new SelectList(docTypes);
         public static SelectList PolTypes = new SelectList(polTypes);
         public static SelectList BloodTypes = new SelectList(bloodTypes);
+        public static SelectList RoleTypes = new SelectList(roleTypes);
     }
 }

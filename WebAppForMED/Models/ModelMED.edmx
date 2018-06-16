@@ -264,6 +264,22 @@
           </AssociationSet>
           <EntitySet Name="DoctorSet" EntityType="ModelMED.Doctor" />
           <EntitySet Name="PatientSet" EntityType="ModelMED.Patient" />
+          <EntitySet Name="AspNetRoles" EntityType="ModelMED.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="ModelMED.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="ModelMED.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="ModelMED.AspNetUser" />
+          <AssociationSet Name="AspNetUserRoles" Association="ModelMED.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="ModelMED.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="ModelMED.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Patient">
           <Key>
@@ -373,6 +389,76 @@
         <Association Name="PatientMedCard">
           <End Type="ModelMED.Patient" Role="Patient" Multiplicity="1" />
           <End Type="ModelMED.MedCard" Role="MedCard" Multiplicity="1" />
+        </Association>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="ModelMED.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="ModelMED.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="ModelMED.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="PersonType" Type="Boolean" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetRoles" Relationship="ModelMED.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="ModelMED.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="ModelMED.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+        </EntityType>
+        <Association Name="AspNetUserRoles">
+          <End Type="ModelMED.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="ModelMED.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="ModelMED.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="ModelMED.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="ModelMED.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="ModelMED.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -530,7 +616,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ecd661fb364d4f429b028a58169fee6e" Name="Diagram1" ZoomLevel="103">
+      <Diagram DiagramId="ecd661fb364d4f429b028a58169fee6e" Name="Diagram1" ZoomLevel="42">
         <EntityTypeShape EntityType="ModelMED.Patient" Width="1.5" PointX="2.75" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.Doctor" Width="1.5" PointX="7.625" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ModelMED.MedCard" Width="1.5" PointX="2.75" PointY="8.625" IsExpanded="true" />
@@ -545,6 +631,13 @@
         <AssociationConnector Association="ModelMED.PatientWorkTime" ManuallyRouted="false" />
         <AssociationConnector Association="ModelMED.DoctorWorkTime" ManuallyRouted="false" />
         <AssociationConnector Association="ModelMED.PatientMedCard" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ModelMED.AspNetRole" Width="1.5" PointX="11.75" PointY="7.375" />
+        <EntityTypeShape EntityType="ModelMED.AspNetUserClaim" Width="1.5" PointX="16.25" PointY="6" />
+        <EntityTypeShape EntityType="ModelMED.AspNetUserLogin" Width="1.5" PointX="16.25" PointY="8.625" />
+        <EntityTypeShape EntityType="ModelMED.AspNetUser" Width="1.5" PointX="14" PointY="6" />
+        <AssociationConnector Association="ModelMED.AspNetUserRoles" />
+        <AssociationConnector Association="ModelMED.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="ModelMED.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

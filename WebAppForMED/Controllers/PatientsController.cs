@@ -119,6 +119,12 @@ namespace WebAppForMED.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Patient patient = db.PatientSet.Find(id);
+            if (patient.MedCard != null)
+            {
+                db.DocRecordSet.RemoveRange(patient.MedCard.DocRecord);
+                patient.MedCard.Illness.Clear();
+                db.MedCardSet.Remove(patient.MedCard);
+            }
             db.PatientSet.Remove(patient);
             db.SaveChanges();
             return RedirectToAction("Index");
