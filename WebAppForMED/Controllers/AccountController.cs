@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebAppForMED.Models;
+using System.Collections.Generic;
 
 namespace WebAppForMED.Controllers
 {
@@ -174,20 +175,74 @@ namespace WebAppForMED.Controllers
 
         public ActionResult ListUsers()
         {
-            var UsersList = UserManager.Users.ToList();
-            return View(UsersList);
+            for (int i = 0; i < UserManager.Users.Count(); i++)
+            {
+                ApplicationUser usr = UserManager.Users.ToArray()[i];
+                string[] roles = UserManager.GetRoles(usr.Id).ToArray();
+                ViewData[usr.UserName] = "";
+
+                for(int j = 0; j < roles.Length; j++)
+                    ViewData[usr.UserName] += roles[j] + " ";
+
+                if ((string)ViewData[usr.UserName] == "")
+                    ViewData[usr.UserName] = "Нет роли";
+            }
+            ViewBag.UserList = UserManager.Users;
+
+            return View();
         }
+        
 
         //
         // GET: /Account/Register
         [Authorize(Roles = "admin")]
-        public ActionResult AddRole()
+        public ActionResult ListRoles(string userId)
         {
             ApplicationUserManager userManager = HttpContext.GetOwinContext()
             .GetUserManager<ApplicationUserManager>();
             ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
-           
-            ViewBag.UserRoles = new SelectList(user.Roles, "RoleId", "RoleId");
+            
+            
+            var roles = userManager.GetRoles(user.Id);
+
+            SelectListItem item1 = new SelectListItem();
+            item1.Text = "admin";
+            item1.Value = "fc529224-ace5-46b2-b56b-3caeee598b8d";
+
+            SelectListItem item2 = new SelectListItem();
+            item1.Text = "doctor";
+            item1.Value = "9048f314-dc6e-469b-bf17-7fa9836834ab";
+
+            SelectListItem item3 = new SelectListItem();
+            item1.Text = "patient";
+            item1.Value = "eb84a670-0344-4aa8-9335-a4f352aa7720";
+
+            List<SelectListItem> RolesList = new List<SelectListItem>();
+            List<SelectListItem> FreeRoles = new List<SelectListItem>();
+
+            for (int i = 0; i < roles.Count; i++)
+            {
+                if (user.Roles.ToList()[i].RoleId == item1.Value)
+                    RolesList.Add(item1);
+                else
+                    FreeRoles.Add(item1);
+
+                if (user.Roles.ToList()[i].RoleId == item2.Value)
+                    RolesList.Add(item2);
+                else
+                    FreeRoles.Add(item2);
+
+                if (user.Roles.ToList()[i].RoleId == item3.Value)
+                    RolesList.Add(item3);
+                else
+                    FreeRoles.Add(item3);
+            }
+            ViewBag.FreeRoles = new SelectList(FreeRoles, "Value", "Text");
+            ViewBag.RolesList = new SelectList(RolesList, "Value", "Text");
+
+
+            ViewBag.userId = userId;
+
 
             return View();
         }
@@ -197,32 +252,37 @@ namespace WebAppForMED.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddRole(RegisterViewModel model)
+        public ActionResult AddRole(string userId, string roleName)
         {
+            
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PersonType = false, PersonId = -1 };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                ApplicationUser user = UserManager.FindByEmail(User.Identity.Name);
+                UserManager.AddToRole(userId, roleName);
 
-                    // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Отправка сообщения электронной почты с этой ссылкой
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                return RedirectToAction("ListRoles", "Account", userId);
+                
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
-            return View(model);
+            return View();
         }
 
+        public ActionResult DeleteFromRole(string userId, string roleName)
+        {
 
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = UserManager.FindByEmail(User.Identity.Name);
+                UserManager.RemoveFromRole(userId, roleName);
+
+                return RedirectToAction("ListRoles", "Account", userId);
+
+            }
+
+            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+            return View();
+        }
 
 
         //

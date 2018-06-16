@@ -1,5 +1,4 @@
-﻿@model IEnumerable<WebAppForMED.Models.ApplicationUser>
-
+﻿
 @{
     ViewBag.Title = "ListUsers";
 }
@@ -12,7 +11,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayName("Имя пользователя")
         </th>
         <th>
             @Html.DisplayName("Роли")
@@ -20,20 +19,17 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in ViewBag.UserList) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.UserName)
+            @Html.Raw(item.UserName)
         </td>
+        
         <td>
-            @foreach (var role in item.Roles)
-            {
-            @Html.Display(role.RoleId + " ");
-            }
-        </td>
+           @Html.Raw(ViewData[item.UserName])
+        </td>         
         <td>
-            @Html.ActionLink("Добавить роль", "AddRole", new { id=item.Id }) |
-            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+            @Html.ActionLink("Редактировать роли", "ListRoles", new { id=item.Id })
         </td>
     </tr>
 }

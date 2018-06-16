@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace WebAppForMED.Models
 {
     // Чтобы добавить данные профиля для пользователя, можно добавить дополнительные свойства в класс ApplicationUser. Дополнительные сведения см. по адресу: http://go.microsoft.com/fwlink/?LinkID=317594.
-   /* public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         public int PersonId { get; set; } //  
         public bool PersonType { get; set; }
@@ -19,7 +19,7 @@ namespace WebAppForMED.Models
             // Здесь добавьте утверждения пользователя
             return userIdentity;
         }
-    }*/
+    }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

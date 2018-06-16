@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebAppForMED.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Добавление роли";
+}
+
+<h2>Добавление роли</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Роли")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (SelectList)ViewBag.RolesList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Text)
+            </td>
+            <td>
+                @Html.ActionLink("Удалить из данной роли", "DeleteFromRole", new { userId = ViewBag.userId, id = item.Text })
+            </td>
+        </tr>
+    }
+    @foreach (var item in (SelectList)ViewBag.FreeRoles)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Text)
+            </td>
+            <td>
+                @Html.ActionLink("Добавить в данную роль", "AddRole", new { userId = ViewBag.userId, id = item.Text })
+            </td>
+        </tr>
+    }
+    
+</table>
+
