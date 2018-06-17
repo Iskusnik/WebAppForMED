@@ -42,15 +42,14 @@ namespace WebAppForMED.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "Имя")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
-        [EmailAddress]
+        [Display(Name = "Имя")]
         public string Email { get; set; }
 
         [Required]
@@ -66,7 +65,7 @@ namespace WebAppForMED.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "Имя")]
         public string Email { get; set; }
 
         [Required]
@@ -84,8 +83,7 @@ namespace WebAppForMED.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Адрес электронной почты")]
+        [Display(Name = "Имя")]
         public string Email { get; set; }
 
         [Required]

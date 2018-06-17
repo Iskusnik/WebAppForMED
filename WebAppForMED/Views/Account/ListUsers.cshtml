@@ -16,6 +16,9 @@
         <th>
             @Html.DisplayName("Роли")
         </th>
+        <th>
+            @Html.DisplayName("Привязано")
+        </th>
         <th></th>
     </tr>
 
@@ -27,9 +30,29 @@
         
         <td>
            @Html.Raw(ViewData[item.UserName])
-        </td>         
+        </td>    
         <td>
-            @Html.ActionLink("Редактировать роли", "ListRoles", new { id=item.Id })
+            @if (item.PersonId == -1)
+            {
+                @Html.Raw("Не привязано")
+            }
+            
+            @if (item.PersonType && item.PersonId != -1)
+            {
+                @Html.Raw("Пациент")
+            }
+            
+            @if (!item.PersonType && item.PersonId != -1)
+            {
+                @Html.Raw("Врач")
+            }
+
+        </td>      
+        <td>
+            @Html.ActionLink("Редактировать роли", "ListRoles", new { userId = item.Id })|
+            @Html.ActionLink("Привязать к врачу", "LinkTo", new { id = item.Id, personType = false })|
+            @Html.ActionLink("Привязать к пациенту", "LinkTo", new { id = item.Id, personType = true })|
+
         </td>
     </tr>
 }

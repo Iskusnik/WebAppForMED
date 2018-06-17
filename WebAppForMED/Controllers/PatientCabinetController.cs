@@ -13,5 +13,15 @@ namespace WebAppForMED.Controllers
         {
             return View();
         }
+
+        public ActionResult Visits()
+        {
+            return View();
+        }
+
+        public ActionResult Medcard()
+        {
+            return View();
+        }
     }
 }

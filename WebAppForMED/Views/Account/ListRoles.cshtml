@@ -10,7 +10,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("Роли")
+            @Html.DisplayName("Роли данного пользователя")
         </th>
         <th></th>
     </tr>
@@ -22,10 +22,20 @@
                 @Html.DisplayName(item.Text)
             </td>
             <td>
-                @Html.ActionLink("Удалить из данной роли", "DeleteFromRole", new { userId = ViewBag.userId, id = item.Text })
+                @Html.ActionLink("Удалить из данной роли", "DeleteFromRole", new { userId = ViewBag.userId, roleName = item.Text })
             </td>
         </tr>
     }
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Свободные роли")
+        </th>
+        <th></th>
+    </tr>
+
     @foreach (var item in (SelectList)ViewBag.FreeRoles)
     {
         <tr>
@@ -33,10 +43,11 @@
                 @Html.DisplayName(item.Text)
             </td>
             <td>
-                @Html.ActionLink("Добавить в данную роль", "AddRole", new { userId = ViewBag.userId, id = item.Text })
+                @Html.ActionLink("Добавить в данную роль", "AddRole", new { userId = ViewBag.userId, roleName = item.Text })
             </td>
         </tr>
     }
-    
 </table>
+
+<div> @Html.ActionLink("К списку пользователей", "ListUsers") </div>
 

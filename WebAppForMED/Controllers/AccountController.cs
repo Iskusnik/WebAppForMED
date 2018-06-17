@@ -80,7 +80,7 @@ namespace WebAppForMED.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    !!!!return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -178,6 +178,7 @@ namespace WebAppForMED.Controllers
             for (int i = 0; i < UserManager.Users.Count(); i++)
             {
                 ApplicationUser usr = UserManager.Users.ToArray()[i];
+                
                 string[] roles = UserManager.GetRoles(usr.Id).ToArray();
                 ViewData[usr.UserName] = "";
 
@@ -187,7 +188,16 @@ namespace WebAppForMED.Controllers
                 if ((string)ViewData[usr.UserName] == "")
                     ViewData[usr.UserName] = "Нет роли";
             }
-            ViewBag.UserList = UserManager.Users;
+            List<ApplicationUser> list = UserManager.Users.ToList();
+
+            list.Remove(UserManager.FindByEmail("somemail@mail.ru"));
+
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                            .GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+
+            list.Remove(user);
+            ViewBag.UserList = list;
 
             return View();
         }
@@ -200,42 +210,39 @@ namespace WebAppForMED.Controllers
         {
             ApplicationUserManager userManager = HttpContext.GetOwinContext()
             .GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
             
             
-            var roles = userManager.GetRoles(user.Id);
 
             SelectListItem item1 = new SelectListItem();
             item1.Text = "admin";
-            item1.Value = "fc529224-ace5-46b2-b56b-3caeee598b8d";
+            item1.Value = "admin";
 
             SelectListItem item2 = new SelectListItem();
-            item1.Text = "doctor";
-            item1.Value = "9048f314-dc6e-469b-bf17-7fa9836834ab";
+            item2.Text = "doctor";
+            item2.Value = "doctor";
 
             SelectListItem item3 = new SelectListItem();
-            item1.Text = "patient";
-            item1.Value = "eb84a670-0344-4aa8-9335-a4f352aa7720";
+            item3.Text = "patient";
+            item3.Value = "patient";
 
             List<SelectListItem> RolesList = new List<SelectListItem>();
             List<SelectListItem> FreeRoles = new List<SelectListItem>();
 
+            SelectListItem[] freeList = {item1, item2, item3 };
+            var roles = userManager.GetRoles(userId);
+
+
+
+            FreeRoles = freeList.ToList();
+
             for (int i = 0; i < roles.Count; i++)
             {
-                if (user.Roles.ToList()[i].RoleId == item1.Value)
-                    RolesList.Add(item1);
-                else
-                    FreeRoles.Add(item1);
-
-                if (user.Roles.ToList()[i].RoleId == item2.Value)
-                    RolesList.Add(item2);
-                else
-                    FreeRoles.Add(item2);
-
-                if (user.Roles.ToList()[i].RoleId == item3.Value)
-                    RolesList.Add(item3);
-                else
-                    FreeRoles.Add(item3);
+                for (int j = 0; j < 3; j++)
+                    if (roles[i] == freeList[j].Value)
+                    {
+                        FreeRoles.Remove(freeList[j]);
+                        RolesList.Add(freeList[j]);
+                    }
             }
             ViewBag.FreeRoles = new SelectList(FreeRoles, "Value", "Text");
             ViewBag.RolesList = new SelectList(RolesList, "Value", "Text");
@@ -249,25 +256,26 @@ namespace WebAppForMED.Controllers
 
         //
         // POST: /Account/Register
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public ActionResult AddRole(string userId, string roleName)
         {
             
             if (ModelState.IsValid)
             {
-                ApplicationUser user = UserManager.FindByEmail(User.Identity.Name);
+                ApplicationUser usr = UserManager.FindById(userId);
+                usr.Roles.Clear();
+                usr.PersonId = -1;
                 UserManager.AddToRole(userId, roleName);
-
-                return RedirectToAction("ListRoles", "Account", userId);
-                
+                UserManager.Update(usr);
+                return RedirectToAction("ListRoles", "Account", new { userId = userId });
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             return View();
         }
-
+        [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteFromRole(string userId, string roleName)
         {
 
@@ -276,8 +284,7 @@ namespace WebAppForMED.Controllers
                 ApplicationUser user = UserManager.FindByEmail(User.Identity.Name);
                 UserManager.RemoveFromRole(userId, roleName);
 
-                return RedirectToAction("ListRoles", "Account", userId);
-
+                return RedirectToAction("ListRoles", "Account", new { userId = userId });
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
@@ -594,5 +601,49 @@ namespace WebAppForMED.Controllers
             }
         }
         #endregion
+
+
+
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult LinkTo(string Id, bool personType)
+        {
+            ModelMEDContainer db = new ModelMEDContainer();
+            if (personType)
+                ViewBag.PersonList = new SelectList(db.PatientSet, "Id", "FIO");
+            else
+                ViewBag.PersonList = new SelectList(db.DoctorSet, "Id", "FIO");
+
+            ViewBag.personType = personType;
+            ViewBag.Id = Id;
+
+            return View();
+        }
+                           
+        //
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult LinkTo(string Id, int personId, bool personType)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            };
+            var user = UserManager.FindById(Id);
+
+            user.Roles.Clear();
+            if (personType)
+                UserManager.AddToRole(Id, "patient");
+            else
+                UserManager.AddToRole(Id, "doctor");
+            user.PersonId = personId;
+            user.PersonType = personType;
+            UserManager.Update(user);
+
+            return RedirectToAction("ListUsers", "Account");
+        }
     }
 }

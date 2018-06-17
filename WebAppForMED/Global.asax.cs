@@ -15,7 +15,7 @@ namespace WebAppForMED
         protected void Application_Start()
         {
             //  Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
-            MVCGridConfig.RegisterGrids();
+            //MVCGridConfig.RegisterGrids();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
