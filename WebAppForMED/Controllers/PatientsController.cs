@@ -15,12 +15,14 @@ namespace WebAppForMED.Controllers
         private ModelMEDContainer db = new ModelMEDContainer();
 
         // GET: Patients
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View(db.PatientSet.ToList());
         }
 
         // GET: Patients/Details/5
+        [Authorize(Roles = "admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,6 +41,7 @@ namespace WebAppForMED.Controllers
         }
 
         // GET: Patients/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -49,6 +52,7 @@ namespace WebAppForMED.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "Id,FIO,Nation,BirthDate,BirthPlace,LivePlace,Pol,OMS,Blood,DocType,DocNum")] Patient patient)
         {
             if (ModelState.IsValid)
@@ -63,6 +67,7 @@ namespace WebAppForMED.Controllers
         }
 
         // GET: Patients/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,6 +92,7 @@ namespace WebAppForMED.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "Id,FIO,Nation,BirthDate,BirthPlace,LivePlace,Pol,OMS,Blood,DocType,DocNum")] Patient patient)
         {
             if (ModelState.IsValid)
@@ -99,6 +105,7 @@ namespace WebAppForMED.Controllers
         }
 
         // GET: Patients/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,6 +123,7 @@ namespace WebAppForMED.Controllers
         // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Patient patient = db.PatientSet.Find(id);
@@ -141,6 +149,7 @@ namespace WebAppForMED.Controllers
 
 
 
+        [Authorize(Roles = "admin")]
         public PartialViewResult ListView()
         {
             SelectList patients = new SelectList(db.PatientSet, "Id", "FIO");
@@ -151,6 +160,7 @@ namespace WebAppForMED.Controllers
 
 
 
+        [Authorize(Roles = "admin")]
         public ActionResult AddIllness(int? id)
         {
             if (id == null)
@@ -192,6 +202,7 @@ namespace WebAppForMED.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult AddIllness(int patientId, int id)
         {
             Patient patient = db.PatientSet.Find(patientId);
@@ -209,6 +220,7 @@ namespace WebAppForMED.Controllers
             return View(patient);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteIllness(int patientId, int id)
         {
             Patient patient = db.PatientSet.Find(patientId);
@@ -229,6 +241,7 @@ namespace WebAppForMED.Controllers
 
 
 
+        [Authorize(Roles = "admin")]
         public ActionResult AddRecord(int? id)
         {
             if (id == null)
@@ -259,6 +272,7 @@ namespace WebAppForMED.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult AddRecord(int patientId, int doctorId, [Bind(Include = "Id, Diagnos, RecordDate")]DocRecord record)
         {
             Patient patient = db.PatientSet.Find(patientId);
@@ -277,6 +291,7 @@ namespace WebAppForMED.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteRecord(int patientId, int id)
         {
             Patient patient = db.PatientSet.Find(patientId);
@@ -294,6 +309,7 @@ namespace WebAppForMED.Controllers
 
 
 
+        [Authorize(Roles = "admin")]
         public ActionResult AddVisit(int? id)
         {
             if (id == null)
@@ -323,6 +339,7 @@ namespace WebAppForMED.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult AddVisit(int patientId, int freeTimeId, int doctorId, [Bind(Include = "Id")]WorkTime record)
         {
             Patient patient = db.PatientSet.Find(patientId);
@@ -345,6 +362,7 @@ namespace WebAppForMED.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteVisit(int patientId, int id)
         {
             Patient patient = db.PatientSet.Find(patientId);

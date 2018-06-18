@@ -80,7 +80,12 @@ namespace WebAppForMED.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    !!!!return RedirectToLocal(returnUrl);
+                    {
+                        ApplicationUser usr = UserManager.FindByEmail(model.Email);
+                        if (UserManager.GetRoles(usr.Id)[0] == "admin")
+                            return RedirectToAction("Index", "Home");
+                    }
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -187,6 +192,15 @@ namespace WebAppForMED.Controllers
 
                 if ((string)ViewData[usr.UserName] == "")
                     ViewData[usr.UserName] = "Нет роли";
+/*
+                if (usr.PersonType)
+                {
+
+                }
+                    ViewData[usr.PersonId.ToString() + "patient"] = "Нет роли";
+                else
+                    ViewData[usr.PersonId.ToString() + "doctor"] = "Нет роли";
+                    */
             }
             List<ApplicationUser> list = UserManager.Users.ToList();
 

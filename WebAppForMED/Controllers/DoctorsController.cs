@@ -15,12 +15,14 @@ namespace WebAppForMED.Controllers
         private ModelMEDContainer db = new ModelMEDContainer();
 
         // GET: Doctors
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             return View(db.DoctorSet.ToList());
         }
 
         // GET: Doctors/Details/5
+        [Authorize(Roles = "admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +38,7 @@ namespace WebAppForMED.Controllers
         }
 
         // GET: Doctors/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +49,7 @@ namespace WebAppForMED.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "Id,FIO,Nation,BirthDate,BirthPlace,LivePlace,Pol,Job,Insurance,DocType,DocNum")] Doctor doctor)
         {
             if (ModelState.IsValid)
@@ -59,6 +63,7 @@ namespace WebAppForMED.Controllers
         }
 
         // GET: Doctors/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +83,7 @@ namespace WebAppForMED.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "Id,FIO,Nation,BirthDate,BirthPlace,LivePlace,Pol,Job,Insurance,DocType,DocNum")] Doctor doctor)
         {
             if (ModelState.IsValid)
@@ -90,6 +96,7 @@ namespace WebAppForMED.Controllers
         }
 
         // GET: Doctors/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -106,6 +113,7 @@ namespace WebAppForMED.Controllers
 
         // POST: Doctors/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -124,6 +132,7 @@ namespace WebAppForMED.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize(Roles = "admin")]
         public PartialViewResult ListView()
         {
             SelectList doctors = new SelectList(db.DoctorSet, "Id", "FIO");
@@ -133,6 +142,7 @@ namespace WebAppForMED.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public JsonResult CheckDocNum(string DocNum, string DocType)
         {
             List<Doctor> resD = (from d in db.DoctorSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
