@@ -1,0 +1,40 @@
+﻿@model WebAppForMED.Models.DocRecord
+
+@{
+    ViewBag.Title = "Удаление";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы уверенны?</h3>
+<div>
+    <h4>Запись в медкарте</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diagnos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecordDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecordDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Назад к списку", "Index")
+        </div>
+    }
+</div>

@@ -10,114 +10,108 @@ using WebAppForMED.Models;
 
 namespace WebAppForMED.Controllers
 {
-    public class IllnessesController : Controller
+    public class FreeTimesController : Controller
     {
         private ModelMEDContainer db = new ModelMEDContainer();
 
-        // GET: Illnesses
-        [Authorize(Roles = "admin")]
+        // GET: FreeTimes
         public ActionResult Index()
         {
-            return View(db.IllnessSet.ToList());
+            return View(db.FreeTimeSet.ToList());
         }
 
-        // GET: Illnesses/Details/5
-        [Authorize(Roles = "admin")]
+        // GET: FreeTimes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            FreeTime freeTime = db.FreeTimeSet.Find(id);
+            if (freeTime == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Patients = illness.MedCard;
-            return View(illness);
+            return View(freeTime);
         }
 
-        // GET: Illnesses/Create
-        [Authorize(Roles = "admin")]
+        // GET: FreeTimes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Illnesses/Create
+        // POST: FreeTimes/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
-        public ActionResult Create([Bind(Include = "Id,Name")] Illness illness)
+        public ActionResult Create([Bind(Include = "Id,StartTime")] FreeTime freeTime)
         {
             if (ModelState.IsValid)
             {
-                db.IllnessSet.Add(illness);
+                db.FreeTimeSet.Add(freeTime);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(illness);
+            return View(freeTime);
         }
 
-        // GET: Illnesses/Edit/5
-        [Authorize(Roles = "admin")]
+        // GET: FreeTimes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            FreeTime freeTime = db.FreeTimeSet.Find(id);
+            if (freeTime == null)
             {
                 return HttpNotFound();
             }
-            return View(illness);
+            return View(freeTime);
         }
 
-        // POST: Illnesses/Edit/5
+        // POST: FreeTimes/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Illness illness)
+        public ActionResult Edit([Bind(Include = "Id,StartTime")] FreeTime freeTime)
         {
-            if (ModelState.IsValid)
+            freeTime = db.FreeTimeSet.Find(freeTime.Id);
+            if (freeTime != null)
             {
-                db.Entry(illness).State = EntityState.Modified;
+                db.Entry(freeTime).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(illness);
+            return View(freeTime);
         }
 
-        // GET: Illnesses/Delete/5
-        [Authorize(Roles = "admin")]
+        // GET: FreeTimes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            FreeTime freeTime = db.FreeTimeSet.Find(id);
+            if (freeTime == null)
             {
                 return HttpNotFound();
             }
-            return View(illness);
+            return View(freeTime);
         }
 
-        // POST: Illnesses/Delete/5
+        // POST: FreeTimes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Illness illness = db.IllnessSet.Find(id);
-            db.IllnessSet.Remove(illness);
+            FreeTime freeTime = db.FreeTimeSet.Find(id);
+            db.FreeTimeSet.Remove(freeTime);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -130,7 +124,5 @@ namespace WebAppForMED.Controllers
             }
             base.Dispose(disposing);
         }
-
-        
     }
 }

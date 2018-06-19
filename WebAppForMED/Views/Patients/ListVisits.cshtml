@@ -6,6 +6,12 @@
         <th>
             @Html.DisplayName("Записи на приём")
         </th>
+        <th>
+            @Html.DisplayName("Врач")
+        </th>
+        <th>
+            @Html.DisplayName("ФИО")
+        </th>
         <th></th>
     </tr>
 
@@ -16,8 +22,15 @@
                 @Html.DisplayName(item.Text)
             </td>
             <td>
+                @Html.DisplayName((string)ViewData[item.Text])
+            </td>
+            <td>
+                @Html.DisplayName((string)ViewData[(string)ViewData[item.Text]])
+            </td>
+            <td>
                 @Html.ActionLink("Удалить из списка записей", "DeleteVisit", new { patientId = Model.Id, id = item.Value })
             </td>
         </tr>
     }
 
+</table>

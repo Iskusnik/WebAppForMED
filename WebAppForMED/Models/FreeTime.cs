@@ -17,12 +17,11 @@ namespace WebAppForMED.Models
     {
         public int Id { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Время начала приёма")]
         public System.DateTime StartTime { get; set; }
-
-        [Required(AllowEmptyStrings = false)]
+        
         public virtual Doctor Doctor { get; set; }
     }
 }

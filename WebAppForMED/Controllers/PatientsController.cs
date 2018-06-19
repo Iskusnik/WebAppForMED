@@ -80,10 +80,17 @@ namespace WebAppForMED.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.Message = "Нет свободного времени";
             ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
             ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
-            ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
 
+            SelectList list = new SelectList(patient.WorkTime, "Id", "StartTime");
+            ViewBag.VisitsList = list;
+            foreach (var item in patient.WorkTime)
+            {
+                ViewData[item.StartTime.ToString()] = item.Doctor.FIO;
+                ViewData[item.Doctor.FIO] = item.Doctor.Job;
+            }
             return View(patient);
         }
 
@@ -192,7 +199,14 @@ namespace WebAppForMED.Controllers
                 ViewBag.Message = "Нечего добавить";
                 ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
                 ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
-                ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
+                
+                SelectList listT = new SelectList(patient.WorkTime, "Id", "StartTime");
+                ViewBag.VisitsList = listT;
+                foreach (var item in patient.WorkTime)
+                {
+                    ViewData[item.StartTime.ToString()] = item.Doctor.FIO;
+                    ViewData[item.Doctor.FIO] = item.Doctor.Job;
+                }
                 return View("Edit", patient);
             }
 
@@ -263,6 +277,14 @@ namespace WebAppForMED.Controllers
                 ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
                 ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
 
+
+                SelectList list = new SelectList(patient.WorkTime, "Id", "StartTime");
+                ViewBag.VisitsList = list;
+                foreach (var item in patient.WorkTime)
+                {
+                    ViewData[item.StartTime.ToString()] = item.Doctor.FIO;
+                    ViewData[item.Doctor.FIO] = item.Doctor.Job;
+                }
                 return View("Edit", patient);
             }
 
@@ -309,58 +331,7 @@ namespace WebAppForMED.Controllers
 
 
 
-        [Authorize(Roles = "admin")]
-        public ActionResult AddVisit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Patient patient = db.PatientSet.Find(id);
-            if (patient == null)
-            {
-                return HttpNotFound();
-            }
-
-            ViewBag.patientId = id;
-            ViewBag.DoctorList = new SelectList(db.DoctorSet, "Id", "FIO");
-            ViewBag.VisitsList = new SelectList(db.FreeTimeSet, "Id", "StartTime");
-            if (db.FreeTimeSet.Count() == 0)
-            {
-                ViewBag.Message = "Нет свободного времени";
-                ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
-                ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
-                ViewBag.VisitsList = new SelectList(patient.WorkTime, "Id", "StartTime");
-                return View("Edit", patient);
-            }
-
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
-        public ActionResult AddVisit(int patientId, int freeTimeId, int doctorId, [Bind(Include = "Id")]WorkTime record)
-        {
-            Patient patient = db.PatientSet.Find(patientId);
-            
-            FreeTime freeTime = db.FreeTimeSet.Find(freeTimeId);
-
-            record.StartTime = freeTime.StartTime;
-            record.Patient = patient;
-
-            if (ModelState.IsValid)
-            {
-                patient.WorkTime.Add(record);
-               
-                db.FreeTimeSet.Remove(freeTime);
-
-                db.Entry(patient).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Edit", patient);
-            }
-            return View();
-        }
+        
 
         [Authorize(Roles = "admin")]
         public ActionResult DeleteVisit(int patientId, int id)
@@ -379,5 +350,88 @@ namespace WebAppForMED.Controllers
             return View(patient);
         }
 
+        [Authorize(Roles = "admin")]
+        public ActionResult AddVisit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Patient patient = db.PatientSet.Find(id);
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.PatientId = id;
+            ViewBag.Doctors = new SelectList(db.DoctorSet, "Id", "FIO");
+
+            foreach (Doctor d in db.DoctorSet)
+                ViewData[d.FIO] = new SelectList(d.FreeTime, "Id", "StartTime");
+
+
+            if (db.FreeTimeSet.Count() == 0)
+            {
+                ViewBag.Message = "Нет свободного времени";
+                ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
+                ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
+
+                SelectList list = new SelectList(patient.WorkTime, "Id", "StartTime");
+                ViewBag.VisitsList = list;
+                foreach (var item in patient.WorkTime)
+                {
+                    ViewData[item.StartTime.ToString()] = item.Doctor.FIO;
+                    ViewData[item.Doctor.FIO] = item.Doctor.Job;
+                }
+                return View("Edit", patient);
+            }
+            DoctorFreeTimeViewModel model = new DoctorFreeTimeViewModel();
+            model.PatientId = (int)id;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+        public ActionResult AddVisit(DoctorFreeTimeViewModel model)
+        {
+            Patient patient = db.PatientSet.Find(model.PatientId);
+            WorkTime record = new WorkTime();
+            FreeTime freeTime = db.FreeTimeSet.Find(model.FreeTimeId);
+            Doctor doctor = db.DoctorSet.Find(model.DoctorId);
+            if (patient != null)
+            if (ModelState.IsValid)
+            {
+                record.Doctor = doctor;
+                record.StartTime = freeTime.StartTime;
+                record.Patient = patient;
+
+                patient.WorkTime.Add(record);
+
+                db.FreeTimeSet.Remove(freeTime);
+
+                db.Entry(patient).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", patient);
+            }
+            return View(model);
+        }
+
+
+        public JsonResult GetDoctors()
+        {
+            var Doctors = new SelectList(db.DoctorSet, "Id", "FIO");
+            ViewBag.Doctors = Doctors;
+            return Json(Doctors, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetTime(int Id)
+        {
+            var allFreeTime = new SelectList(db.FreeTimeSet.Where(a => a.Doctor.Id == Id).ToList(), "Id", "StartTime");
+            return Json(allFreeTime, JsonRequestBehavior.AllowGet);
+        }
+
+        
     }
 }

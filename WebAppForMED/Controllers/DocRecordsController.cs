@@ -10,18 +10,18 @@ using WebAppForMED.Models;
 
 namespace WebAppForMED.Controllers
 {
-    public class IllnessesController : Controller
+    public class DocRecordsController : Controller
     {
         private ModelMEDContainer db = new ModelMEDContainer();
 
-        // GET: Illnesses
+        // GET: DocRecords
         [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
-            return View(db.IllnessSet.ToList());
+            return View(db.DocRecordSet.ToList());
         }
 
-        // GET: Illnesses/Details/5
+        // GET: DocRecords/Details/5
         [Authorize(Roles = "admin")]
         public ActionResult Details(int? id)
         {
@@ -29,41 +29,17 @@ namespace WebAppForMED.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            DocRecord docRecord = db.DocRecordSet.Find(id);
+            if (docRecord == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Patients = illness.MedCard;
-            return View(illness);
+            return View(docRecord);
         }
 
-        // GET: Illnesses/Create
-        [Authorize(Roles = "admin")]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        // GET: DocRecords/Create
 
-        // POST: Illnesses/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
-        public ActionResult Create([Bind(Include = "Id,Name")] Illness illness)
-        {
-            if (ModelState.IsValid)
-            {
-                db.IllnessSet.Add(illness);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(illness);
-        }
-
-        // GET: Illnesses/Edit/5
+        // GET: DocRecords/Edit/5
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
@@ -71,31 +47,31 @@ namespace WebAppForMED.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            DocRecord docRecord = db.DocRecordSet.Find(id);
+            if (docRecord == null)
             {
                 return HttpNotFound();
             }
-            return View(illness);
+            return View(docRecord);
         }
 
-        // POST: Illnesses/Edit/5
+        // POST: DocRecords/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Illness illness)
+        public ActionResult Edit([Bind(Include = "Id,Diagnos,RecordDate")] DocRecord docRecord)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(illness).State = EntityState.Modified;
+                db.Entry(docRecord).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(illness);
+            return View(docRecord);
         }
 
-        // GET: Illnesses/Delete/5
+        // GET: DocRecords/Delete/5
         [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
@@ -103,21 +79,22 @@ namespace WebAppForMED.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            DocRecord docRecord = db.DocRecordSet.Find(id);
+            if (docRecord == null)
             {
                 return HttpNotFound();
             }
-            return View(illness);
+            return View(docRecord);
         }
 
-        // POST: Illnesses/Delete/5
+        // POST: DocRecords/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Illness illness = db.IllnessSet.Find(id);
-            db.IllnessSet.Remove(illness);
+            DocRecord docRecord = db.DocRecordSet.Find(id);
+            db.DocRecordSet.Remove(docRecord);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -130,7 +107,5 @@ namespace WebAppForMED.Controllers
             }
             base.Dispose(disposing);
         }
-
-        
     }
 }

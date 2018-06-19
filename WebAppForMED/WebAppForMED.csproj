@@ -208,13 +208,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="ClassEnumTypes.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DocRecordsController.cs" />
     <Compile Include="Controllers\DoctorCabinetController.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
+    <Compile Include="Controllers\FreeTimesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IllnessesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PatientCabinetController.cs" />
     <Compile Include="Controllers\PatientsController.cs" />
+    <Compile Include="Controllers\WorkTimesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,6 +229,7 @@
     <Compile Include="Models\Doctor.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DoctorFreeTimeViewModel.cs" />
     <Compile Include="Models\FreeTime.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -375,6 +379,21 @@
     <Content Include="Views\PatientCabinet\Medcard.cshtml" />
     <Content Include="Views\PatientCabinet\Index.cshtml" />
     <Content Include="Views\Account\LinkTo.cshtml" />
+    <Content Include="Views\Shared\_GridExcel.cshtml" />
+    <Content Include="Views\Doctors\ListFreeTime.cshtml" />
+    <Content Include="Views\Doctors\ListWorkTime.cshtml" />
+    <Content Include="Views\Doctors\AddFreeTime.cshtml" />
+    <Content Include="Views\WorkTimes\Delete.cshtml" />
+    <Content Include="Views\WorkTimes\Edit.cshtml" />
+    <Content Include="Views\WorkTimes\Index.cshtml" />
+    <Content Include="Views\FreeTimes\Delete.cshtml" />
+    <Content Include="Views\FreeTimes\Edit.cshtml" />
+    <Content Include="Views\FreeTimes\Index.cshtml" />
+    <Content Include="Views\DocRecords\Delete.cshtml" />
+    <Content Include="Views\DocRecords\Details.cshtml" />
+    <Content Include="Views\DocRecords\Edit.cshtml" />
+    <Content Include="Views\DocRecords\Index.cshtml" />
+    <Content Include="Views\Patients\FreeTimeSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

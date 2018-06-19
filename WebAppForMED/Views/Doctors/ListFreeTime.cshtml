@@ -1,0 +1,23 @@
+﻿@model WebAppForMED.Models.Doctor
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Свободное время для записи")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (SelectList)ViewBag.FreeTimeList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Text)
+            </td>
+            <td>
+                @Html.ActionLink("Удалить", "DeleteFreeTime", new { doctorId = Model.Id, id = item.Value })
+            </td>
+        </tr>
+    }
+
+    </table>

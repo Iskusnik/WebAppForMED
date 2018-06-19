@@ -25,8 +25,9 @@ namespace WebAppForMED.Models
         }
 
         public int Id { get; set; }
-        [Required(AllowEmptyStrings = false)]
+        
         [RegularExpression(@"(([А-Я][а-я]* )([А-Я][а-я]*)){1}( [А-Я][а-я]*){0,1}$", ErrorMessage = "Некорректные ФИО")]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "ФИО")]
         public string FIO { get; set; }
 

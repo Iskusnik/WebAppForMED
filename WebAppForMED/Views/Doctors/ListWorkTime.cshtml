@@ -1,0 +1,28 @@
+﻿@model WebAppForMED.Models.Doctor
+<h1>Приём пациентов</h1> 
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Время")
+        </th>
+        <th>
+            @Html.DisplayName("Пациент")
+        </th>
+    </tr>
+
+    @foreach (var item in (SelectList)ViewBag.WorkTimeList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Text)
+            </td>
+            <td>
+                @Html.DisplayName((string)ViewData[item.Text])
+            </td>
+            <td>
+                @Html.ActionLink("Удалить", "DeleteWorkTime", new { doctorId = Model.Id, id = item.Value })
+            </td>
+        </tr>
+    }
+
+</table>

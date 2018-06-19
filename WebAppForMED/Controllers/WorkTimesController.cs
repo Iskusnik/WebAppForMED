@@ -10,18 +10,20 @@ using WebAppForMED.Models;
 
 namespace WebAppForMED.Controllers
 {
-    public class IllnessesController : Controller
+    public class WorkTimesController : Controller
     {
         private ModelMEDContainer db = new ModelMEDContainer();
 
-        // GET: Illnesses
+        // GET: WorkTimes
+
         [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
-            return View(db.IllnessSet.ToList());
+            return View(db.WorkTimeSet.ToList());
         }
 
-        // GET: Illnesses/Details/5
+        // GET: WorkTimes/Details/5
+
         [Authorize(Roles = "admin")]
         public ActionResult Details(int? id)
         {
@@ -29,41 +31,42 @@ namespace WebAppForMED.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            WorkTime workTime = db.WorkTimeSet.Find(id);
+            if (workTime == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Patients = illness.MedCard;
-            return View(illness);
+            return View(workTime);
         }
 
-        // GET: Illnesses/Create
+        // GET: WorkTimes/Create
+
         [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Illnesses/Create
+        // POST: WorkTimes/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Create([Bind(Include = "Id,Name")] Illness illness)
+        public ActionResult Create([Bind(Include = "Id,StartTime")] WorkTime workTime)
         {
             if (ModelState.IsValid)
             {
-                db.IllnessSet.Add(illness);
+                db.WorkTimeSet.Add(workTime);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(illness);
+            return View(workTime);
         }
 
-        // GET: Illnesses/Edit/5
+        // GET: WorkTimes/Edit/5
+
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
@@ -71,31 +74,34 @@ namespace WebAppForMED.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            WorkTime workTime = db.WorkTimeSet.Find(id);
+            if (workTime == null)
             {
                 return HttpNotFound();
             }
-            return View(illness);
+            return View(workTime);
         }
 
-        // POST: Illnesses/Edit/5
+        // POST: WorkTimes/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Illness illness)
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit([Bind(Include = "Id,StartTime")] WorkTime workTime)
         {
-            if (ModelState.IsValid)
+            workTime = db.WorkTimeSet.Find(workTime.Id);
+            if (workTime != null)
             {
-                db.Entry(illness).State = EntityState.Modified;
+                db.Entry(workTime).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(illness);
+            return View(workTime);
         }
 
-        // GET: Illnesses/Delete/5
+        // GET: WorkTimes/Delete/5
+
         [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
@@ -103,21 +109,21 @@ namespace WebAppForMED.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Illness illness = db.IllnessSet.Find(id);
-            if (illness == null)
+            WorkTime workTime = db.WorkTimeSet.Find(id);
+            if (workTime == null)
             {
                 return HttpNotFound();
             }
-            return View(illness);
+            return View(workTime);
         }
 
-        // POST: Illnesses/Delete/5
+        // POST: WorkTimes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Illness illness = db.IllnessSet.Find(id);
-            db.IllnessSet.Remove(illness);
+            WorkTime workTime = db.WorkTimeSet.Find(id);
+            db.WorkTimeSet.Remove(workTime);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -130,7 +136,5 @@ namespace WebAppForMED.Controllers
             }
             base.Dispose(disposing);
         }
-
-        
     }
 }

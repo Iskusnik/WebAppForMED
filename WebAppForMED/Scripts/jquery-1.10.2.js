@@ -9767,6 +9767,8 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 		};
 	});
 });
+
+
 // Limit scope pollution from any deprecated API
 // (function() {
 

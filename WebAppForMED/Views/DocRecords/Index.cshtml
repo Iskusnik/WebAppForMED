@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebAppForMED.Models.DocRecord>
+
+@{
+    ViewBag.Title = "Записи в медкартах";
+}
+
+@using GridMvc.Html
+<div style="width:500px;">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(c => c.Id).Titled("ID").Filterable(true).Sortable(true);
+    columns.Add(c => c.Doctor.FIO).Titled("ФИО врача").Filterable(true).Sortable(true);
+    columns.Add(c => c.RecordDate).Format("{0:dd/MM/yyyy}").Titled("День записи").Filterable(true).Sortable(true);
+    columns.Add(c => c.Diagnos).Titled("Диагноз").Filterable(true).Sortable(true);
+    columns.Add()
+            .Titled("")
+            .SetWidth(10)
+            .Filterable(true)
+            .Sanitized(false)
+            .Encoded(false)
+            .RenderValueAs(c => Html.ActionLink("Редактировать", "Edit", new { id = c.Id })
+            .ToHtmlString());
+
+    columns.Add()
+            .Titled("")
+            .SetWidth(10)
+            .Filterable(true)
+            .Sanitized(false)
+            .Encoded(false)
+            .RenderValueAs(c => Html.ActionLink("Детали", "Details", new { id = c.Id })
+            .ToHtmlString());
+
+    columns.Add()
+            .Titled("")
+            .SetWidth(10)
+            .Filterable(true)
+            .Sanitized(false)
+            .Encoded(false)
+            .RenderValueAs(c => Html.ActionLink("Удалить", "Delete", new { id = c.Id })
+            .ToHtmlString());
+}).WithPaging(10).Sortable(true)
+</div>

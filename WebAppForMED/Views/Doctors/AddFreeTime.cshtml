@@ -1,0 +1,31 @@
+﻿@model WebAppForMED.Models.FreeTime
+@{
+    ViewBag.Title = "AddFreeTime";
+}
+
+<h2>Добавление времени для записи на приём</h2>
+
+@using (Html.BeginForm())
+{
+    
+<div class="form-horizontal">
+   
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <input type="hidden" value="@ViewBag.doctorId" name="doctorId" />
+    <div class="form-group">
+        @Html.LabelFor(model => model.StartTime, "Время для записи на приём", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.StartTime, new { type = "datetime-local"})
+            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить запись" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}

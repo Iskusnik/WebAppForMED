@@ -83,7 +83,11 @@ namespace WebAppForMED.Controllers
                     {
                         ApplicationUser usr = UserManager.FindByEmail(model.Email);
                         if (UserManager.GetRoles(usr.Id)[0] == "admin")
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Admin", "Home");
+                        if (UserManager.GetRoles(usr.Id)[0] == "patient")
+                            return RedirectToAction("Index", "PatientCabinet");
+                        if (UserManager.GetRoles(usr.Id)[0] == "doctor")
+                            return RedirectToAction("Index", "DoctorCabinet");
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:

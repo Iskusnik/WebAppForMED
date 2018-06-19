@@ -1,7 +1,7 @@
 ﻿@model WebAppForMED.Models.Illness
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Детали";
 }
 
 <h2>Детали</h2>
@@ -19,8 +19,26 @@
         </dd>
 
     </dl>
+
+    @using GridMvc.Html
+    @Html.Grid((IEnumerable<WebAppForMED.Models.MedCard>)ViewBag.Patients).Columns(columns =>
+{
+    columns.Add(c => c.Patient.Id).Titled("ID").Filterable(true).Sortable(true);
+    columns.Add(c => c.Patient.FIO).Titled("ФИО больного").Filterable(true).Sortable(true);
+    columns.Add(c => c.Patient.BirthDate).Format("{0:dd/MM/yyyy}").Titled("День рождения").Filterable(true).Sortable(true);
+    columns.Add()
+            .Titled("")
+            .SetWidth(10)
+            .Filterable(true)
+            .Sanitized(false)
+            .Encoded(false)
+            .RenderValueAs(c => Html.ActionLink("Редактировать", "Edit", "Patients", null, null, null, new { id = c.Patient.Id }, null)
+                .ToHtmlString());
+}).WithPaging(10).Sortable(true)
+
+
 </div>
 <p>
-    @Html.ActionLink("Edit", "Редактировать", new { id = Model.Id }) |
-    @Html.ActionLink("Обратно к списку", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
 </p>

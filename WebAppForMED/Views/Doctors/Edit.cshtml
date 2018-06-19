@@ -106,10 +106,19 @@
             </div>
         </div>
     </div>
+
+
+    <div>
+        @Html.Partial("ListFreeTime", Model)
+        @Html.Partial("ListWorkTime", Model)
+    </div>
 }
 
 <div>
     @Html.ActionLink("Назад к списку", "Index")
+</div>
+<div>
+    @Html.ActionLink("Добавить время для приёмов", "AddFreeTime", new { id = Model.Id })
 </div>
 
 @section Scripts {

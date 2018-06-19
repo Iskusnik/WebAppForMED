@@ -1,38 +1,49 @@
-﻿@model WebAppForMED.Models.WorkTime
-
-@using (Html.BeginForm()) 
+﻿@model WebAppForMED.Models.DoctorFreeTimeViewModel
+      
+    <br /> <br />
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Запись на приём</h4>
-        <input type="hidden" value="@ViewBag.patientId" name="patientId" />
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container">
         <div class="form-group">
-            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("freeTimeId", (SelectList)ViewBag.VisitsList, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.ValidationMessageFor(model => model.StartTime, "Поле не может быть пустым", new { @class = "text-danger" })
-            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
+            @Html.Hidden("PatientId", (int)ViewBag.PatientId)
+            @if (ViewBag.Doctors != null)
+            {
+                @Html.DisplayNameFor(model => model.DoctorId)
+                @Html.DropDownListFor(model => model.DoctorId, (SelectList)ViewBag.Doctors, "Выбор врача", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
+            }
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Doctor, "Доктор", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("doctorId", (SelectList)ViewBag.DoctorList, htmlAttributes: new { @class = "control -label col-md-2" })
-                @Html.ValidationMessage("doctorId", "", new { @class = "text-danger" })
-            </div>
-        </div>
-       
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+               @Html.DisplayNameFor(model => model.FreeTimeId)
+                @Html.DropDownListFor(model => model.FreeTimeId, new SelectList(" "), "Выбор времени", new { @class = "form-control" })
+                 @Html.ValidationMessageFor(model => model.FreeTimeId, "", new { @class = "text-danger" })
         </div>
     </div>
-}
+<!-- -->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $("#DoctorId").change(function () {
+                $.get("/Patients/GetTime", { Id: $("#DoctorId").val() }, function (data) {
+                    $("#FreeTimeId").empty();
+                    $.each(data, function (index, row) {
+                        $("#FreeTimeId").append("<option value='" + row.Value + "'>" + row.Text + "</option>")
+                    })
+                })
+            })
+        });
+    </script>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Сохранить" class="btn btn-default" />
+    </div>
+</div>
+}
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад к списку", "Index")
 </div>

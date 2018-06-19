@@ -71,6 +71,10 @@ namespace WebAppForMED.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Doctor doctor = db.DoctorSet.Find(id);
+            ViewBag.FreeTimeList = new SelectList(doctor.FreeTime, "Id", "StartTime");
+            ViewBag.WorkTimeList = new SelectList(doctor.WorkTime, "Id", "StartTime");
+            foreach (WorkTime wt in doctor.WorkTime)
+                ViewData[wt.StartTime.ToString()] = wt.Patient.FIO;
             if (doctor == null)
             {
                 return HttpNotFound();
@@ -147,8 +151,106 @@ namespace WebAppForMED.Controllers
         {
             List<Doctor> resD = (from d in db.DoctorSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
             List<Patient> resP = (from d in db.PatientSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
-            var result = resD.Count == 0 && resD.Count == 0;
+            var result = resD.Count == 0 && resP.Count == 0;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+        [Authorize(Roles = "admin")]
+        public ActionResult AddFreeTime(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Doctor doctor = db.DoctorSet.Find(id);
+
+            ViewBag.doctorId = id;
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+
+            
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public ActionResult AddFreeTime(int doctorId, [Bind(Include = "StartTime")]FreeTime freeTime)
+        {
+            Doctor doctor = db.DoctorSet.Find(doctorId);
+            freeTime.Doctor = doctor;
+
+            
+            if (ModelState.IsValid)
+            {
+                freeTime = db.FreeTimeSet.Add(freeTime);
+                doctor.FreeTime.Add(freeTime);
+                db.SaveChanges();
+                ViewBag.FreeTimeList = new SelectList(doctor.FreeTime, "Id", "StartTime");
+                ViewBag.WorkTimeList = new SelectList(doctor.WorkTime, "Id", "StartTime");
+                foreach (WorkTime wt in doctor.WorkTime)
+                    ViewData[wt.StartTime.ToString()] = wt.Patient.FIO;
+
+                return RedirectToAction("Edit", doctor);
+            }
+            ViewBag.doctorId = doctorId;
+            return View();
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult DeleteFreeTime(int doctorId, int id)
+        {
+            Doctor doctor = db.DoctorSet.Find(doctorId);
+            FreeTime record = db.FreeTimeSet.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                doctor.FreeTime.Remove(record);
+                db.FreeTimeSet.Remove(record);
+                db.SaveChanges();
+
+
+                ViewBag.FreeTimeList = new SelectList(doctor.FreeTime, "Id", "StartTime");
+                ViewBag.WorkTimeList = new SelectList(doctor.WorkTime, "Id", "StartTime");
+                foreach (WorkTime wt in doctor.WorkTime)
+                    ViewData[wt.StartTime.ToString()] = wt.Patient.FIO;
+                return RedirectToAction("Edit", doctor);
+            }
+            return View(doctor);
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult DeleteWorkTime(int doctorId, int id)
+        {
+            Doctor doctor = db.DoctorSet.Find(doctorId);
+            WorkTime record = db.WorkTimeSet.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                doctor.WorkTime.Remove(record);
+                db.WorkTimeSet.Remove(record);
+                db.Entry(doctor).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+                ViewBag.FreeTimeList = new SelectList(doctor.FreeTime, "Id", "Name");
+                ViewBag.WorkTimeList = new SelectList(doctor.WorkTime, "Id", "StartTime");
+                foreach (WorkTime wt in doctor.WorkTime)
+                    ViewData[wt.StartTime.ToString()] = wt.Patient.FIO;
+                return RedirectToAction("Edit", doctor);
+            }
+            return View(doctor);
+        }
+        /* public virtual ActionResult Export()
+         {
+             var tasks = repository.GetAllTasks();
+
+             Response.AddHeader("Content-Disposition", "attachment; filename=Tasks.xls");
+             Response.ContentType = "application/ms-excel";
+
+             return PartialView("Export", tasks);
+         }*/
     }
 }
