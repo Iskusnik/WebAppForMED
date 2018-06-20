@@ -8,14 +8,14 @@
         <th></th>
     </tr>
 
-    @foreach (var item in (SelectList)ViewBag.FreeTimeList)
+    @foreach (var item in Model.FreeTime)
     {
         <tr>
             <td>
-                @Html.DisplayName(item.Text)
+                @Html.Raw(item.StartTime.ToString())
             </td>
             <td>
-                @Html.ActionLink("Удалить", "DeleteFreeTime", new { doctorId = Model.Id, id = item.Value })
+                @Html.ActionLink("Удалить", "DeleteFreeTime", new { doctorId = Model.Id, id = item.Id })
             </td>
         </tr>
     }

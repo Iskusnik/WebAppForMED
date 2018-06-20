@@ -1,14 +1,14 @@
-﻿@model WebAppForMED.Models.Patient
+﻿@model WebAppForMED.Models.Doctor
 
 @{
     ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_LayoutPatient.cshtml";
+    Layout = "~/Views/Shared/_LayoutDoctor.cshtml";
 }
 
 <h2>Персональные данные</h2>
 <h3>@Html.Raw(ViewBag.Message)</h3>
 <div>
-    <h4>Пациент</h4>
+    <h4>Врач</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -60,19 +60,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OMS)
+            @Html.DisplayNameFor(model => model.Insurance)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OMS)
+            @Html.DisplayFor(model => model.Insurance)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Blood)
+            @Html.DisplayNameFor(model => model.Job)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Blood)
+            @Html.DisplayFor(model => model.Job)
         </dd>
 
         <dt>

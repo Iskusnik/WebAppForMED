@@ -1,7 +1,24 @@
 ﻿
 @{
     ViewBag.Title = "Medcard";
+    Layout = "~/Views/Shared/_LayoutPatient.cshtml";
 }
 
-<h2>Medcard</h2>
 
+<h2>Медкарта</h2>
+
+@using GridMvc.Html
+<div style="width:500px;">
+    @Html.Grid((ICollection<WebAppForMED.Models.Illness>)ViewBag.Illnesses).Columns(columns =>
+{
+    columns.Add(c => c.Name).Titled("Болезнь").Filterable(true).Sortable(true);
+}).WithPaging(10).Sortable(true)
+<div style="width:500px;">
+    @Html.Grid((ICollection<WebAppForMED.Models.DocRecord>)ViewBag.DocRecords).Columns(columns =>
+{
+    columns.Add(c => c.Doctor.FIO).Titled("ФИО врача").Filterable(true).Sortable(true);
+    columns.Add(c => c.Doctor.Job).Titled("Должность").Filterable(true).Sortable(true);
+    columns.Add(c => c.RecordDate).Format("{0:dd/MM/yyyy}").Titled("Дата записи").Filterable(true).Sortable(true);
+    columns.Add(c => c.Diagnos).Titled("Запись").Filterable(true).Sortable(true);
+}).WithPaging(10).Sortable(true)
+    

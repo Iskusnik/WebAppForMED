@@ -1,5 +1,5 @@
 ﻿@model WebAppForMED.Models.DoctorFreeTimeViewModel
-         
+      @{Layout = "~/Views/Shared/_LayoutPatient.cshtml";}
     <br /> <br />
 @using (Html.BeginForm())
 {
@@ -7,7 +7,7 @@
     <div class="container">
         <div class="form-group">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            
+
             @Html.Hidden("PatientId", (int)ViewBag.PatientId)
             @if (ViewBag.Jobs != null)
             {
@@ -17,22 +17,22 @@
             }
         </div>
         <div class="form-group">
-            
-                @Html.DisplayNameFor(model => model.DoctorId)
-                @Html.DropDownListFor(model => model.DoctorId, (SelectList)ViewBag.Doctors, "Выбор врача", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
-            
+
+            @Html.DisplayNameFor(model => model.DoctorId)
+            @Html.DropDownListFor(model => model.DoctorId, (SelectList)ViewBag.Doctors, "Выбор врача", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
+
         </div>
         <div class="form-group">
-               @Html.DisplayNameFor(model => model.FreeTimeId)
-                @Html.DropDownListFor(model => model.FreeTimeId, new SelectList(" "), "Выбор времени", new { @class = "form-control" })
-                 @Html.ValidationMessageFor(model => model.FreeTimeId, "", new { @class = "text-danger" })
+            @Html.DisplayNameFor(model => model.FreeTimeId)
+            @Html.DropDownListFor(model => model.FreeTimeId, new SelectList(" "), "Выбор времени", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FreeTimeId, "", new { @class = "text-danger" })
         </div>
     </div>
-<!-- -->
+    <!-- -->
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
-    
+
 
 
     <script>
@@ -60,12 +60,9 @@
         });
     </script>
 
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Сохранить" class="btn btn-default" />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-default" />
+        </div>
     </div>
-</div>
 }
-<div>
-    @Html.ActionLink("Назад к списку", "Index")
-</div>

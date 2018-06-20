@@ -18,12 +18,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ИС поликлиники", "Index", "PatientCabinet", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Запись к врачу", "Visits", "PatientCabinet")</li>
-                    <li>@Html.ActionLink("Медкарта", "Medcard", "PatientCabinet")</li>
+                    <li>@Html.ActionLink("Запись к врачу", "Visits", new { patient = ViewBag.patient })</li>
+                    <li>@Html.ActionLink("Медкарта", "Medcard", new { patient = ViewBag.patient })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -42,6 +42,10 @@
     <link href="@Url.Content("~/Content/Css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
 </body>
-</html>
-                                                  `
+</html>                                    `

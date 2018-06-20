@@ -10,6 +10,7 @@
 {
     columns.Add(c => c.Id).Titled("ID").Filterable(true).Sortable(true);
     columns.Add(c => c.Doctor.FIO).Titled("ФИО врача").Filterable(true).Sortable(true);
+    columns.Add(c => c.MedCard.Patient.FIO).Titled("ФИО пациента").Filterable(true).Sortable(true);
     columns.Add(c => c.RecordDate).Format("{0:dd/MM/yyyy}").Titled("День записи").Filterable(true).Sortable(true);
     columns.Add(c => c.Diagnos).Titled("Диагноз").Filterable(true).Sortable(true);
     columns.Add()

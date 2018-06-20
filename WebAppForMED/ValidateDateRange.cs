@@ -21,4 +21,20 @@ namespace WebAppForMED
             }
         }
     }
+    public class ValidateDocuments : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            WebAppForMED.Models.ModelMEDContainer db = new Models.ModelMEDContainer();
+            
+            if ((DateTime)value >= Convert.ToDateTime("01/01/1900") && (DateTime)value <= Convert.ToDateTime("01/12/2020"))
+            {
+                return ValidationResult.Success;
+            }
+            else
+            {
+                return new ValidationResult("Дата должна быть в пределах от 01/01/1900 до 01/12/2020");
+            }
+        }
+    }
 }

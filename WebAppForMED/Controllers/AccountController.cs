@@ -184,6 +184,8 @@ namespace WebAppForMED.Controllers
 
         public ActionResult ListUsers()
         {
+            ModelMEDContainer db = new ModelMEDContainer();
+
             for (int i = 0; i < UserManager.Users.Count(); i++)
             {
                 ApplicationUser usr = UserManager.Users.ToArray()[i];
@@ -196,15 +198,13 @@ namespace WebAppForMED.Controllers
 
                 if ((string)ViewData[usr.UserName] == "")
                     ViewData[usr.UserName] = "Нет роли";
-/*
-                if (usr.PersonType)
-                {
 
-                }
-                    ViewData[usr.PersonId.ToString() + "patient"] = "Нет роли";
-                else
-                    ViewData[usr.PersonId.ToString() + "doctor"] = "Нет роли";
-                    */
+                if (usr.PersonId != -1)
+                    if (usr.PersonType)
+                        ViewData[usr.Id] = db.PatientSet.Find(usr.PersonId).FIO;
+                    else
+                        ViewData[usr.Id] = db.DoctorSet.Find(usr.PersonId).FIO;
+
             }
             List<ApplicationUser> list = UserManager.Users.ToList();
 
@@ -622,7 +622,7 @@ namespace WebAppForMED.Controllers
 
 
 
-
+    
 
         [HttpGet]
         [AllowAnonymous]
@@ -630,10 +630,92 @@ namespace WebAppForMED.Controllers
         {
             ModelMEDContainer db = new ModelMEDContainer();
             if (personType)
-                ViewBag.PersonList = new SelectList(db.PatientSet, "Id", "FIO");
-            else
-                ViewBag.PersonList = new SelectList(db.DoctorSet, "Id", "FIO");
+            {
+                List<Patient> list = db.PatientSet.ToList();
 
+                foreach (ApplicationUser item in UserManager.Users)
+                    list.Remove(db.PatientSet.Find(item.PersonId));
+
+                if (list.Count == 0)
+                {
+                    for (int i = 0; i < UserManager.Users.Count(); i++)
+                    {
+                        ApplicationUser usr = UserManager.Users.ToArray()[i];
+
+                        string[] roles = UserManager.GetRoles(usr.Id).ToArray();
+                        ViewData[usr.UserName] = "";
+
+                        for (int j = 0; j < roles.Length; j++)
+                            ViewData[usr.UserName] += roles[j] + " ";
+
+                        if ((string)ViewData[usr.UserName] == "")
+                            ViewData[usr.UserName] = "Нет роли";
+
+                        if (usr.PersonId != -1)
+                            if (usr.PersonType)
+                                ViewData[usr.Id] = db.PatientSet.Find(usr.PersonId).FIO;
+                            else
+                                ViewData[usr.Id] = db.DoctorSet.Find(usr.PersonId).FIO;
+                    }
+                    List<ApplicationUser> listT = UserManager.Users.ToList();
+
+                    listT.Remove(UserManager.FindByEmail("somemail@mail.ru"));
+
+                    ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                    .GetUserManager<ApplicationUserManager>();
+                    ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+
+                    listT.Remove(user);
+                    ViewBag.UserList = listT;
+                    ViewBag.Error = "Не с кем связать";
+                    return View("ListUsers");
+                }
+                ViewBag.PersonList = new SelectList(list, "Id", "FIO");
+            }
+            else
+            {
+                List<Doctor> list = db.DoctorSet.ToList();
+
+                foreach (ApplicationUser item in UserManager.Users)
+                    list.Remove(db.DoctorSet.Find(item.PersonId));
+
+                if (list.Count == 0)
+                {
+                    for (int i = 0; i < UserManager.Users.Count(); i++)
+                    {
+                        ApplicationUser usr = UserManager.Users.ToArray()[i];
+
+                        string[] roles = UserManager.GetRoles(usr.Id).ToArray();
+                        ViewData[usr.UserName] = "";
+
+                        for (int j = 0; j < roles.Length; j++)
+                            ViewData[usr.UserName] += roles[j] + " ";
+
+                        if ((string)ViewData[usr.UserName] == "")
+                            ViewData[usr.UserName] = "Нет роли";
+
+                        if (usr.PersonId != -1)
+                            if (usr.PersonType)
+                                ViewData[usr.Id] = db.PatientSet.Find(usr.PersonId).FIO;
+                            else
+                                ViewData[usr.Id] = db.DoctorSet.Find(usr.PersonId).FIO;
+                    }
+                    List<ApplicationUser> listT = UserManager.Users.ToList();
+
+                    listT.Remove(UserManager.FindByEmail("somemail@mail.ru"));
+
+                    ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                    .GetUserManager<ApplicationUserManager>();
+                    ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+
+                    listT.Remove(user);
+                    ViewBag.UserList = listT;
+                    ViewBag.Error = "Не с кем связать";
+                    return View("ListUsers");
+                }
+
+                ViewBag.PersonList = new SelectList(list, "Id", "FIO");
+            }
             ViewBag.personType = personType;
             ViewBag.Id = Id;
 

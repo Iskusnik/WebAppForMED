@@ -40,7 +40,7 @@ namespace WebAppForMED.Models
         [ValidateDateRange]
         [DataType(DataType.Date)]
         [Display(Name = "Дата рождения")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime BirthDate { get; set; }
 
 
@@ -66,10 +66,12 @@ namespace WebAppForMED.Models
         public string Insurance { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+
+        [Remote("CheckDocNum", "Doctors", AdditionalFields = "DocNum, Id", ErrorMessage = "Номер занят")]
         [Display(Name = "Тип документа")]
         public string DocType { get; set; }
 
-        [Remote("CheckDocNum", "Doctors", AdditionalFields = "DocType", ErrorMessage = "Номер занят")]
+        [Remote("CheckDocNum", "Doctors", AdditionalFields = "DocType, Id", ErrorMessage = "Номер занят")]
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "Должно быть: только цифры")]
         [Display(Name = "Номер документа")]
         public string DocNum { get; set; }

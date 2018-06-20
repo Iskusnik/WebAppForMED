@@ -26,6 +26,21 @@
             @Html.DisplayFor(model => model.RecordDate)
         </dd>
 
+        <dt>
+            @Html.DisplayName("Врач")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doctor.FIO)
+        </dd>
+        <dt>
+            @Html.DisplayName("Пациент")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedCard.Patient.FIO)
+        </dd>
+
     </dl>
 </div>
 <p>

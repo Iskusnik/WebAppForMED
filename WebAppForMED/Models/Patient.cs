@@ -35,10 +35,10 @@ namespace WebAppForMED.Models
         public string Nation { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+        [ValidateDateRange]
         [DataType(DataType.Date)]
         [Display(Name = "Дата рождения")]
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        [ValidateDateRange]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime BirthDate { get; set; }
 
         [Required(AllowEmptyStrings = false)]
@@ -62,13 +62,11 @@ namespace WebAppForMED.Models
         [Display(Name = "Группа крови")]
         public string Blood { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
+       [Remote("CheckDocNum", "Patients", AdditionalFields = "DocNum, Id", ErrorMessage = "Номер занят")]
         [Display(Name = "Тип документа")]
         public string DocType { get; set; }
 
-
-        [Remote("CheckDocNum", "Doctors", AdditionalFields = "DocType", ErrorMessage = "Номер занят")]
-        [Required(AllowEmptyStrings = false)]
+        [Remote("CheckDocNum", "Patients", AdditionalFields = "DocType, Id", ErrorMessage = "Номер занят")]
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "Должно быть: только цифры")]
         [Display(Name = "Номер документа")]
         public string DocNum { get; set; }

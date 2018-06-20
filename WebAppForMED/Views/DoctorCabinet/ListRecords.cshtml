@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WebAppForMED.Models.DocRecord>
+
+@{
+    ViewBag.Title = "ListRecords";
+    Layout = "~/Views/Shared/_LayoutDoctor.cshtml";
+}
+
+<h2>Ваши записи в медкартах</h2>
+@using GridMvc.Html
+<div style="width:500px;">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(c => c.MedCard.Patient.FIO).Titled("ФИО пациента").Filterable(true).Sortable(true);
+    columns.Add(c => c.Diagnos).Titled("Диагноз").Filterable(true).Sortable(true);
+    columns.Add(c => c.RecordDate).Titled("Время Записи").Filterable(true).Sortable(true);
+
+}).WithPaging(10).Sortable(true)

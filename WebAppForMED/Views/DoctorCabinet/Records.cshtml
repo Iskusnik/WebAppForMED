@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Visits";
+    Layout = "~/Views/Shared/_LayoutDoctor.cshtml";
+}
+
+<h2>Пациенты</h2>
+
+@using GridMvc.Html
+<div style="width:500px;">
+    @Html.Grid((List<WebAppForMED.Models.Patient>)ViewBag.Patients).Columns(columns =>
+{
+    columns.Add(c => c.FIO).Titled("ФИО пациента").Filterable(true).Sortable(true);
+    columns.Add(c => c.BirthDate).Format("{0:dd/MM/yyyy}").Titled("День рождения").Filterable(true).Sortable(true);
+    columns.Add()
+            .Titled("")
+            .SetWidth(10)
+            .Filterable(true)
+            .Sanitized(false)
+            .Encoded(false)
+            .RenderValueAs(c => Html.ActionLink("Добавить запись", "AddRecord", new { patientId = c.Id })
+            .ToHtmlString());
+}).WithPaging(5).Sortable(true)

@@ -13,6 +13,24 @@ namespace WebAppForMED.Controllers
     public class PatientsController : Controller
     {
         private ModelMEDContainer db = new ModelMEDContainer();
+        [AcceptVerbs("Get", "Post")]
+        public JsonResult CheckDocNum(string DocNum, string DocType, int Id = 0)
+        {
+            List<Doctor> resD = (from d in db.DoctorSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
+            List<Patient> resP = (from d in db.PatientSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
+            var result = (resD.Count == 0 && resP.Count == 0);
+
+            if (Id != 0)
+            {
+                resD.Remove(db.DoctorSet.Find(Id));
+                result = (resD.Count == 0 && resP.Count == 0);
+            }
+
+            if (result)
+                return Json(true, JsonRequestBehavior.AllowGet);
+            else
+                return Json(false, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Patients
         [Authorize(Roles = "admin")]
@@ -79,8 +97,7 @@ namespace WebAppForMED.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.Message = "Нет свободного времени";
+            
             ViewBag.IllnessList = new SelectList(patient.MedCard.Illness, "Id", "Name");
             ViewBag.RecordsList = new SelectList(patient.MedCard.DocRecord, "Id", "Diagnos");
 
@@ -364,11 +381,14 @@ namespace WebAppForMED.Controllers
             }
 
             ViewBag.PatientId = id;
-            ViewBag.Doctors = new SelectList(db.DoctorSet, "Id", "FIO");
 
             foreach (Doctor d in db.DoctorSet)
                 ViewData[d.FIO] = new SelectList(d.FreeTime, "Id", "StartTime");
+           
+            List<Doctor> docList = db.DoctorSet.Where(d => d.FreeTime.Count != 0).ToList();
 
+            ViewBag.Doctors = new SelectList(docList, "Id", "FIO");
+            ViewBag.Jobs = new SelectList((from Doctor d in docList select d.Job).Distinct().ToList());
 
             if (db.FreeTimeSet.Count() == 0)
             {
@@ -401,7 +421,7 @@ namespace WebAppForMED.Controllers
             FreeTime freeTime = db.FreeTimeSet.Find(model.FreeTimeId);
             Doctor doctor = db.DoctorSet.Find(model.DoctorId);
             if (patient != null)
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model.DoctorId != -1 && model.FreeTimeId != -1)
             {
                 record.Doctor = doctor;
                 record.StartTime = freeTime.StartTime;
@@ -415,13 +435,14 @@ namespace WebAppForMED.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Edit", patient);
             }
-            return View(model);
+            ViewBag.Message = "Выберите врача и время";
+            return RedirectToAction("Edit", patient);
         }
 
 
-        public JsonResult GetDoctors()
+        public JsonResult GetDoctors(string Id)
         {
-            var Doctors = new SelectList(db.DoctorSet, "Id", "FIO");
+            var Doctors = new SelectList(db.DoctorSet.Where(a => a.Job == Id), "Id", "FIO");
             ViewBag.Doctors = Doctors;
             return Json(Doctors, JsonRequestBehavior.AllowGet);
         }

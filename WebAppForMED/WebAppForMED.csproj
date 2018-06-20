@@ -375,9 +375,7 @@
     <Content Include="Views\Shared\_LayoutPatient.cshtml" />
     <Content Include="Views\Shared\_LayoutDoctor.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
-    <Content Include="Views\PatientCabinet\Visits.cshtml" />
     <Content Include="Views\PatientCabinet\Medcard.cshtml" />
-    <Content Include="Views\PatientCabinet\Index.cshtml" />
     <Content Include="Views\Account\LinkTo.cshtml" />
     <Content Include="Views\Shared\_GridExcel.cshtml" />
     <Content Include="Views\Doctors\ListFreeTime.cshtml" />
@@ -394,10 +392,17 @@
     <Content Include="Views\DocRecords\Edit.cshtml" />
     <Content Include="Views\DocRecords\Index.cshtml" />
     <Content Include="Views\Patients\FreeTimeSearch.cshtml" />
+    <Content Include="Views\PatientCabinet\Index.cshtml" />
+    <Content Include="Views\PatientCabinet\AddVisit.cshtml" />
+    <Content Include="Views\DoctorCabinet\Index.cshtml" />
+    <Content Include="Views\PatientCabinet\Visits.cshtml" />
+    <Content Include="Views\DoctorCabinet\Visits.cshtml" />
+    <Content Include="Views\DoctorCabinet\Records.cshtml" />
+    <Content Include="Views\DoctorCabinet\AddRecord.cshtml" />
+    <Content Include="Views\DoctorCabinet\ListRecords.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DoctorCabinet\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

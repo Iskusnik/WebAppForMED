@@ -1,7 +1,18 @@
 ﻿
 @{
     ViewBag.Title = "Visits";
+    Layout = "~/Views/Shared/_LayoutPatient.cshtml";
 }
 
-<h2>Visits</h2>
-
+<h2>Записи к врачам</h2>
+<h3>@Html.Raw(ViewBag.Message)</h3>
+@Html.ActionLink("Записаться к врачу", "AddVisit")
+@using GridMvc.Html
+<div style="width:500px;">
+    @Html.Grid((IEnumerable<WebAppForMED.Models.WorkTime>)ViewBag.Visits).Columns(columns =>
+{
+    columns.Add(c => c.Doctor.FIO).Titled("ФИО врача").Filterable(true).Sortable(true);
+    columns.Add(c => c.Doctor.Job).Titled("Должность").Filterable(true).Sortable(true);
+    columns.Add(c => c.StartTime).Titled("Время приёма").Filterable(true).Sortable(true);
+    
+}).WithPaging(10).Sortable(true)

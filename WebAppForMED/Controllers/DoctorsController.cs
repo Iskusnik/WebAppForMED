@@ -145,14 +145,23 @@ namespace WebAppForMED.Controllers
         }
 
 
-        [HttpGet]
-        [Authorize(Roles = "admin")]
-        public JsonResult CheckDocNum(string DocNum, string DocType)
+        [AcceptVerbs("Get", "Post")]
+        public JsonResult CheckDocNum(string DocNum, string DocType, int Id = 0)
         {
             List<Doctor> resD = (from d in db.DoctorSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
             List<Patient> resP = (from d in db.PatientSet where d.DocType == DocType && d.DocNum == DocNum select d).ToList();
-            var result = resD.Count == 0 && resP.Count == 0;
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var result = (resD.Count == 0 && resP.Count == 0);
+
+            if (Id != 0)
+            {
+                resD.Remove(db.DoctorSet.Find(Id));
+                result = (resD.Count == 0 && resP.Count == 0);
+            }
+
+            if (result)
+                return Json(true, JsonRequestBehavior.AllowGet);
+            else
+                return Json(false, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -16,5 +16,9 @@ namespace WebAppForMED.Models
         [Display(Name = "Время приёма")]
         public int FreeTimeId { get; set; }
         public int PatientId { get; set; }
+
+
+        [Display(Name = "Должность")]
+        public string Job { get; set; }
     }
 }
